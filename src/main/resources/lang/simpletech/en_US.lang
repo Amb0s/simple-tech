@@ -1,0 +1,12 @@
+tile.block.fan.unpowered.name=Fan
+tile.block.fan.unpowered.desc=Fan goes whoosh!
+tile.block.fan.powered.name=Powered Fan
+tile.block.fan.powered.desc=Fan goes whoosh!
+tile.block.jumppad.name=Jump Pad
+tile.block.jumppad.desc=Boing! Hop hop!
+tile.chest.trapped.name=Trapped Chest
+tile.chest.trapped.desc=It's a trap!
+tile.block.lightsensor.name=Light Sensor
+tile.block.lightsensor.desc=...and there was light
+tile.block.allocator.name=Allocator
+tile.block.allocator.desc=

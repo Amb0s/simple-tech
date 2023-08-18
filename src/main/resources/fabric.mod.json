@@ -1,0 +1,30 @@
+{
+  "schemaVersion": 1,
+  "id": "simpletech",
+  "version": "${version}",
+  "name": "Simple Tech",
+  "description": "Adds simple blocks to automate stuff",
+  "authors": [
+    "Ambos"
+  ],
+  "contact": {
+    "homepage": "https://github.com/Turnip-Labs",
+    "sources": "https://github.com/Turnip-Labs/simple-tech",
+    "issues": "https://github.com/Turnip-Labs/simple-tech/issues"
+  },
+  "license": "CC-BY-NC-SA-3.0",
+  "environment": "*",
+  "entrypoints": {
+    "main": [
+        "turniplabs.simpletech.SimpleTech"
+    ]
+  },
+  "mixins": [
+      "simpletech.mixins.json"
+  ],
+  "depends": {
+    "fabricloader": ">=0.13.3"
+  },
+  "suggests": {
+  }
+}
