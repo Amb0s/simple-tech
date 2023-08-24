@@ -105,7 +105,7 @@ public class BlockAllocator extends BlockTileEntity {
 
 	@Override
 	public int tickRate() {
-		return 4;
+		return 1;
 	}
 
 	@Override
