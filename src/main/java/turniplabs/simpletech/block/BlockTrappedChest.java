@@ -6,15 +6,15 @@ import net.minecraft.core.entity.player.EntityPlayer;
 import net.minecraft.core.sound.SoundType;
 import net.minecraft.core.world.World;
 import net.minecraft.core.world.WorldSource;
-import turniplabs.simpletech.SimpleTech;
 
 import java.util.Random;
 
 public class BlockTrappedChest extends BlockChest {
+    public static final int redstoneOffset = 4;
+
     public BlockTrappedChest(String key, int id, Material material) {
         super(key, id, material);
-        this.withTexCoords(9, 1, 9, 1, 11, 1, 10, 1, 10,
-                1, 10, 1);
+        this.withTexCoords(9, 1, 9, 1, 11, 1, 10, 1, 10, 1, 10, 1);
         this.setTickOnLoad(true);
     }
 
@@ -40,26 +40,12 @@ public class BlockTrappedChest extends BlockChest {
 
     @Override
     public boolean isPoweringTo(WorldSource blockAccess, int x, int y, int z, int side) {
-        // Debug code to display metadata.
-        boolean debug = false;
-        if (debug) {
-            System.out.println("METADATA: " + Integer.toString(
-                    blockAccess.getBlockMetadata(x, y, z), 2));
-            System.out.println("DIRECTION: " + Integer.toString(
-                    SimpleTech.getDirectionFromMetadata(blockAccess.getBlockMetadata(x, y, z)), 2));
-            System.out.println("REDSTONE: " + Integer.toString(SimpleTech.getRedstoneFromMetadata(
-                    blockAccess.getBlockMetadata(x, y, z)), 2));
-            System.out.println("METADATA (recombined): " + Integer.toString(SimpleTech.createMetadata(
-                    SimpleTech.getDirectionFromMetadata(blockAccess.getBlockMetadata(x, y, z)),
-                    SimpleTech.getRedstoneFromMetadata(blockAccess.getBlockMetadata(x, y, z))), 2));
-        }
-
-        return SimpleTech.getRedstoneFromMetadata(blockAccess.getBlockMetadata(x, y, z)) > 0;
+        return BlockTrappedChest.getRedstoneFromMetadata(blockAccess.getBlockMetadata(x, y, z)) > 0;
     }
 
     @Override
     public void onBlockRemoval(World world, int x, int y, int z) {
-        if (SimpleTech.getRedstoneFromMetadata(world.getBlockMetadata(x, y, z)) > 0) {
+        if (BlockTrappedChest.getRedstoneFromMetadata(world.getBlockMetadata(x, y, z)) > 0) {
             this.notifyNeighbors(world, x, y, z);
         }
 
@@ -80,17 +66,17 @@ public class BlockTrappedChest extends BlockChest {
     @Override
     public void updateTick(World world, int x, int y, int z, Random rand) {
         if (!world.isClientSide) {
-            if (SimpleTech.getRedstoneFromMetadata(world.getBlockMetadata(x, y, z)) > 0) {
+            if (BlockTrappedChest.getRedstoneFromMetadata(world.getBlockMetadata(x, y, z)) > 0) {
                 this.setState(world, x, y, z, (byte) 0);
             }
         }
     }
 
     private void setState(World world, int x, int y, int z, byte redstone) {
-        int direction = SimpleTech.getDirectionFromMetadata(world.getBlockMetadata(x, y, z));
+        int metadata = world.getBlockMetadata(x, y, z);
 
-        // Recreates metadata using the redstone signal and the block direction values.
-        world.setBlockMetadataWithNotify(x, y, z, SimpleTech.createMetadata(direction, redstone));
+        // Recreates metadata using the redstone signal and the old metadata value.
+        world.setBlockMetadataWithNotify(x, y, z, BlockTrappedChest.getMetaWithRedstone(metadata, redstone));
 
         // Updates block's neighbors.
         this.notifyNeighbors(world, x, y, z);
@@ -101,5 +87,15 @@ public class BlockTrappedChest extends BlockChest {
     private void notifyNeighbors(World world, int x, int y, int z) {
         world.notifyBlocksOfNeighborChange(x, y, z, this.id);
         world.notifyBlocksOfNeighborChange(x, y - 1, z, this.id);
+    }
+
+    public static int getRedstoneFromMetadata(int metadata) {
+        return metadata >> 4;
+    }
+
+    public static int getMetaWithRedstone(int metadata, int redstone) {
+        // https://www.geeksforgeeks.org/modify-bit-given-position/
+        int mask = 1 << redstoneOffset;
+        return (metadata & ~mask) | ((redstone << redstoneOffset) & mask);
     }
 }
