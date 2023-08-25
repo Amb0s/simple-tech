@@ -6,6 +6,7 @@ import net.minecraft.core.entity.player.EntityPlayer;
 import net.minecraft.core.sound.SoundType;
 import net.minecraft.core.world.World;
 import net.minecraft.core.world.WorldSource;
+import turniplabs.simpletech.SimpleTech;
 
 import java.util.Random;
 
@@ -40,12 +41,12 @@ public class BlockTrappedChest extends BlockChest {
 
     @Override
     public boolean isPoweringTo(WorldSource blockAccess, int x, int y, int z, int side) {
-        return BlockTrappedChest.getRedstoneFromMetadata(blockAccess.getBlockMetadata(x, y, z)) > 0;
+        return SimpleTech.getRedstoneFromMetadata(blockAccess.getBlockMetadata(x, y, z), redstoneOffset) > 0;
     }
 
     @Override
     public void onBlockRemoval(World world, int x, int y, int z) {
-        if (BlockTrappedChest.getRedstoneFromMetadata(world.getBlockMetadata(x, y, z)) > 0) {
+        if (SimpleTech.getRedstoneFromMetadata(world.getBlockMetadata(x, y, z), redstoneOffset) > 0) {
             this.notifyNeighbors(world, x, y, z);
         }
 
@@ -66,7 +67,7 @@ public class BlockTrappedChest extends BlockChest {
     @Override
     public void updateTick(World world, int x, int y, int z, Random rand) {
         if (!world.isClientSide) {
-            if (BlockTrappedChest.getRedstoneFromMetadata(world.getBlockMetadata(x, y, z)) > 0) {
+            if (SimpleTech.getRedstoneFromMetadata(world.getBlockMetadata(x, y, z), redstoneOffset) > 0) {
                 this.setState(world, x, y, z, (byte) 0);
             }
         }
@@ -76,7 +77,7 @@ public class BlockTrappedChest extends BlockChest {
         int metadata = world.getBlockMetadata(x, y, z);
 
         // Recreates metadata using the redstone signal and the old metadata value.
-        world.setBlockMetadataWithNotify(x, y, z, BlockTrappedChest.getMetaWithRedstone(metadata, redstone));
+        world.setBlockMetadataWithNotify(x, y, z, SimpleTech.getMetaWithRedstone(metadata, redstone, redstoneOffset));
 
         // Updates block's neighbors.
         this.notifyNeighbors(world, x, y, z);
@@ -87,15 +88,5 @@ public class BlockTrappedChest extends BlockChest {
     private void notifyNeighbors(World world, int x, int y, int z) {
         world.notifyBlocksOfNeighborChange(x, y, z, this.id);
         world.notifyBlocksOfNeighborChange(x, y - 1, z, this.id);
-    }
-
-    public static int getRedstoneFromMetadata(int metadata) {
-        return metadata >> 4;
-    }
-
-    public static int getMetaWithRedstone(int metadata, int redstone) {
-        // https://www.geeksforgeeks.org/modify-bit-given-position/
-        int mask = 1 << redstoneOffset;
-        return (metadata & ~mask) | ((redstone << redstoneOffset) & mask);
     }
 }
