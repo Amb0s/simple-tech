@@ -14,7 +14,7 @@ public class TileEntityLightSensor extends TileEntity {
             if (block instanceof BlockLightSensor) {
                 BlockLightSensor lightSensor = ((BlockLightSensor) block);
                 byte redstone;
-                if (lightSensor.isInverted()) {
+                if (lightSensor.isInverted(this.worldObj, this.xCoord, this.yCoord, this.zCoord)) {
                     redstone = (byte) (this.worldObj.isDaytime() ? 1 : 0); // Daytime mode.
                 } else {
                     redstone = (byte) (this.worldObj.isDaytime() ? 0 : 1); // Nighttime mode.

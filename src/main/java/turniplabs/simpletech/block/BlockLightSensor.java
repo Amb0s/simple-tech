@@ -10,14 +10,15 @@ import turniplabs.simpletech.SimpleTech;
 import turniplabs.simpletech.block.entity.TileEntityLightSensor;
 
 public class BlockLightSensor extends BlockTileEntity {
-    private boolean inverted;
+    public static final int invertedOffset = 0;
+    public static final int redstoneOffset = 4;
+
     public BlockLightSensor(String key, int id, Material material) {
         super(key, id, material);
-        this.inverted = false;
     }
 
-    public boolean isInverted() {
-        return inverted;
+    public boolean isInverted(World world, int x, int y, int z) {
+        return SimpleTech.getInvertedFromMetadata(world.getBlockMetadata(x, y, z), invertedOffset) != 0;
     }
 
     @Override
@@ -42,21 +43,7 @@ public class BlockLightSensor extends BlockTileEntity {
 
     @Override
     public boolean isPoweringTo(WorldSource blockAccess, int x, int y, int z, int side) {
-        // Debug code to display metadata.
-        boolean debug = false;
-        if (debug) {
-            System.out.println("METADATA: " + Integer.toString(
-                    blockAccess.getBlockMetadata(x, y, z), 2));
-            System.out.println("DIRECTION: " + Integer.toString(
-                    SimpleTech.getDirectionFromMetadata(blockAccess.getBlockMetadata(x, y, z)), 2));
-            System.out.println("REDSTONE: " + Integer.toString(SimpleTech.getRedstoneFromMetadata(
-                    blockAccess.getBlockMetadata(x, y, z)), 2));
-            System.out.println("METADATA (recombined): " + Integer.toString(SimpleTech.createMetadata(
-                    SimpleTech.getDirectionFromMetadata(blockAccess.getBlockMetadata(x, y, z)),
-                    SimpleTech.getRedstoneFromMetadata(blockAccess.getBlockMetadata(x, y, z))), 2));
-        }
-
-        return SimpleTech.getRedstoneFromMetadata(blockAccess.getBlockMetadata(x, y, z)) > 0;
+        return SimpleTech.getRedstoneFromMetadata(blockAccess.getBlockMetadata(x, y, z), redstoneOffset) > 0;
     }
 
     @Override
@@ -73,15 +60,24 @@ public class BlockLightSensor extends BlockTileEntity {
 
     @Override
     public boolean blockActivated(World world, int x, int y, int z, EntityPlayer player) {
-        this.inverted = !this.inverted;
+        int metadata = world.getBlockMetadata(x, y, z);
+        int newMeta;
+        if (!isInverted(world, x, y, z)) {
+            newMeta = SimpleTech.getMetaWithInverted(metadata, 1, invertedOffset);
+            world.setBlockMetadataWithNotify(x, y, z, newMeta);
+        } else {
+            newMeta = SimpleTech.getMetaWithInverted(metadata, 0, invertedOffset);
+            world.setBlockMetadataWithNotify(x, y, z, newMeta);
+        }
+
         return true;
     }
 
     public void updateSensor(World world, int x, int y, int z, byte redstone) {
-        int direction = SimpleTech.getDirectionFromMetadata(world.getBlockMetadata(x, y, z));
+        int metadata = world.getBlockMetadata(x, y, z);
 
-        // Recreates metadata using the redstone signal and the block direction values.
-        world.setBlockMetadataWithNotify(x, y, z, SimpleTech.createMetadata(direction, redstone));
+        // Recreates metadata using the redstone signal and the old metadata value.
+        world.setBlockMetadataWithNotify(x, y, z, SimpleTech.getMetaWithRedstone(metadata, redstone, redstoneOffset));
 
         // Updates block's neighbors.
         world.notifyBlocksOfNeighborChange(x, y, z, this.id);
