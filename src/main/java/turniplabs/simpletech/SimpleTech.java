@@ -102,16 +102,33 @@ public class SimpleTech implements ModInitializer {
         LOGGER.info("Simple Tech initialized.");
     }
 
-    public static int getRedstoneFromMetadata(int metadata) {
-        return metadata >> 4; // or 3?
+    public static int setBit(int number, int position, int bit) {
+        // Sets a bit at position p in n to b.
+        // Returns modified n.
+        // https://www.geeksforgeeks.org/modify-bit-given-position/
+        int mask = 1 << position;
+        return (number & ~mask) | ((bit << position) & mask);
     }
 
-    public static int getDirectionFromMetadata(int metadata) {
-        return metadata & 7;
+    public static int getBit(int number, int offset) {
+        // https://stackoverflow.com/questions/9354860/how-to-get-the-value-of-a-bit-at-a-certain-position-from-a-byte
+        return (number >> offset) & 1;
     }
 
-    public static int createMetadata(int direction, int redstone) {
-        return (redstone << 4) | direction;
+    public static int getRedstoneFromMetadata(int metadata, int redstoneOffset) {
+        return getBit(metadata, redstoneOffset);
+    }
+
+    public static int getInvertedFromMetadata(int metadata, int invertedOffset) {
+        return getBit(metadata, invertedOffset);
+    }
+
+    public static int getMetaWithRedstone(int metadata, int redstone, int redstoneOffset) {
+        return setBit(metadata, redstoneOffset, redstone);
+    }
+
+    public static int getMetaWithInverted(int metadata, int inverted, int invertedOffset) {
+        return setBit(metadata, invertedOffset, inverted);
     }
 
     public static int getOppositeDirectionById(int i) {
