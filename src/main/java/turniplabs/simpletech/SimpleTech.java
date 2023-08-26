@@ -131,6 +131,10 @@ public class SimpleTech implements ModInitializer {
         return setBit(metadata, invertedOffset, inverted);
     }
 
+    public static int get3DDirectionFromMeta(int meta) {
+        return meta & 7;
+    }
+
     public static int getOppositeDirectionById(int i) {
         return Direction.getDirectionById(i).getOpposite().getId();
     }

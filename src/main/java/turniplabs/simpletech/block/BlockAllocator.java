@@ -2,7 +2,6 @@ package turniplabs.simpletech.block;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.block.Block;
-import net.minecraft.core.block.BlockChest;
 import net.minecraft.core.block.BlockTileEntity;
 import net.minecraft.core.block.entity.TileEntity;
 import net.minecraft.core.block.entity.TileEntityChest;
@@ -116,7 +115,7 @@ public class BlockAllocator extends BlockTileEntity {
 
 	@Override
 	public int getBlockTextureFromSideAndMetadata(Side side, int meta) {
-		int direction = BlockChest.getDirectionFromMeta(meta).ordinal();
+		int direction = SimpleTech.get3DDirectionFromMeta(meta);
 
 		if (direction > 5) {
 			return texCoordToIndex(this.top[0], this.top[1]);

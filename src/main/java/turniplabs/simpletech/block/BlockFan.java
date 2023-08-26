@@ -1,6 +1,5 @@
 package turniplabs.simpletech.block;
 
-import net.minecraft.core.block.BlockChest;
 import net.minecraft.core.block.BlockTileEntity;
 import net.minecraft.core.block.entity.TileEntity;
 import net.minecraft.core.block.material.Material;
@@ -45,7 +44,7 @@ public class BlockFan extends BlockTileEntity {
 
    @Override
    public int getBlockTextureFromSideAndMetadata(Side side, int j) {
-      int direction = BlockChest.getDirectionFromMeta(j).ordinal();
+      int direction = SimpleTech.get3DDirectionFromMeta(j);
       if (direction > Direction.EAST.getId()) {
          // Defaults to top/bottom texture.
          return texCoordToIndex(this.topBottom[0], this.topBottom[1]);
