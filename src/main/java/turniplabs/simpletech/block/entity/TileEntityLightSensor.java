@@ -2,27 +2,37 @@ package turniplabs.simpletech.block.entity;
 
 import net.minecraft.core.block.Block;
 import net.minecraft.core.block.entity.TileEntity;
+import turniplabs.simpletech.SimpleTech;
 import turniplabs.simpletech.block.BlockLightSensor;
 
 public class TileEntityLightSensor extends TileEntity {
     @Override
     public void updateEntity() {
-        // If the world object if valid...
-        if (this.worldObj != null && !this.worldObj.isClientSide) {
-            Block block = this.getBlockType();
+        // If the world object is valid...
+        if (worldObj != null && !worldObj.isClientSide) {
+            Block block = getBlockType();
             // If it's a light sensor...
             if (block instanceof BlockLightSensor) {
                 BlockLightSensor lightSensor = ((BlockLightSensor) block);
-                byte redstone;
-                if (lightSensor.isInverted(this.worldObj, this.xCoord, this.yCoord, this.zCoord)) {
-                    redstone = (byte) (this.worldObj.isDaytime() ? 1 : 0); // Daytime mode.
+                boolean isDay = worldObj.isDaytime();
+                boolean isPowered = SimpleTech.getRedstoneFromMetadata(
+                        worldObj.getBlockMetadata(xCoord, yCoord, zCoord),
+                        BlockLightSensor.redstoneOffset) > 0;
+                boolean isInverted = lightSensor.isInverted(worldObj, xCoord, yCoord, zCoord);
+                if (isInverted) {
+                    // Daytime mode.
+                    if (isDay && !isPowered)
+                        // Sends redstone value.
+                        lightSensor.updateSensor(worldObj, xCoord, yCoord, zCoord, true);
+                    if (!isDay && isPowered)
+                        lightSensor.updateSensor(worldObj, xCoord, yCoord, zCoord, false);
                 } else {
-                    redstone = (byte) (this.worldObj.isDaytime() ? 0 : 1); // Nighttime mode.
+                    // Nighttime mode.
+                    if (isDay && isPowered)
+                        lightSensor.updateSensor(worldObj, xCoord, yCoord, zCoord, false);
+                    if (!isDay && !isPowered)
+                        lightSensor.updateSensor(worldObj, xCoord, yCoord, zCoord, true);
                 }
-
-                // Sends redstone value.
-                lightSensor.updateSensor(this.worldObj, this.xCoord, this.yCoord,
-                        this.zCoord, redstone);
             }
         }
     }

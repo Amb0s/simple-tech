@@ -61,20 +61,17 @@ public class BlockLightSensor extends BlockTileEntity {
     @Override
     public boolean blockActivated(World world, int x, int y, int z, EntityPlayer player) {
         int metadata = world.getBlockMetadata(x, y, z);
-        int newMeta;
-        if (!isInverted(world, x, y, z)) {
-            newMeta = SimpleTech.getMetaWithInverted(metadata, 1, invertedOffset);
-            world.setBlockMetadataWithNotify(x, y, z, newMeta);
-        } else {
-            newMeta = SimpleTech.getMetaWithInverted(metadata, 0, invertedOffset);
-            world.setBlockMetadataWithNotify(x, y, z, newMeta);
-        }
+        int isInverted = !isInverted(world, x, y, z) ? 1 : 0;
+
+        // Recreates metadata using the inverted state and the old metadata value.
+        world.setBlockMetadataWithNotify(x, y, z, SimpleTech.getMetaWithInverted(metadata, isInverted, invertedOffset));
 
         return true;
     }
 
-    public void updateSensor(World world, int x, int y, int z, byte redstone) {
+    public void updateSensor(World world, int x, int y, int z, boolean powering) {
         int metadata = world.getBlockMetadata(x, y, z);
+        int redstone = powering ? 1 : 0;
 
         // Recreates metadata using the redstone signal and the old metadata value.
         world.setBlockMetadataWithNotify(x, y, z, SimpleTech.getMetaWithRedstone(metadata, redstone, redstoneOffset));
