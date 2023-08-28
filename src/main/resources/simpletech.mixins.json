@@ -4,6 +4,7 @@
   "package": "turniplabs.simpletech.mixin",
   "compatibilityLevel": "JAVA_8",
   "mixins": [
+    "EntityItemMixin",
     "MinecraftMixin",
     "RenderBlocksMixin"
   ],
