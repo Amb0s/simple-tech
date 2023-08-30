@@ -114,15 +114,11 @@ public class SimpleTech implements ModInitializer {
     }
 
     public static int setBit(int number, int position, int bit) {
-        // Sets a bit at position p in n to b.
-        // Returns modified n.
-        // https://www.geeksforgeeks.org/modify-bit-given-position/
         int mask = 1 << position;
         return (number & ~mask) | ((bit << position) & mask);
     }
 
     public static int getBit(int number, int offset) {
-        // https://stackoverflow.com/questions/9354860/how-to-get-the-value-of-a-bit-at-a-certain-position-from-a-byte
         return (number >> offset) & 1;
     }
 
