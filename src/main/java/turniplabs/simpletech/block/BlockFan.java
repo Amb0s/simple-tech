@@ -9,31 +9,24 @@ import net.minecraft.core.item.ItemStack;
 import net.minecraft.core.util.helper.Direction;
 import net.minecraft.core.util.helper.Side;
 import net.minecraft.core.world.World;
-import turniplabs.halplibe.helper.TextureHelper;
 import turniplabs.simpletech.SimpleTech;
 import turniplabs.simpletech.block.entity.TileEntityFan;
 
 import java.util.Random;
 
 public class BlockFan extends BlockTileEntity {
-   private final int[] topBottom;
-   private final int[] side;
-   private final int[] front;
    private final boolean isPowered;
 
-   public BlockFan(String key, int id, Material material, boolean isPowered, String topBottom,
-                   String side, String front) {
+   public BlockFan(String key, int id, Material material, boolean isPowered) {
       super(key, id, material);
       this.isPowered = isPowered;
-      this.topBottom = TextureHelper.registerBlockTexture(SimpleTech.MOD_ID, topBottom);
-      this.side = TextureHelper.registerBlockTexture(SimpleTech.MOD_ID, side);
-      this.front = TextureHelper.registerBlockTexture(SimpleTech.MOD_ID, front);
    }
 
    @Override
    public ItemStack[] getBreakResult(World world, EnumDropCause dropCause, int x, int y, int z, int meta,
                                      TileEntity tileEntity) {
       // Only drops unpowered fan when broken.
+      // Should use BlockBuilder.setBlockDrop instead?
       return dropCause != EnumDropCause.IMPROPER_TOOL ? new ItemStack[]{new ItemStack(SimpleTech.unpoweredFan)} : null;
    }
 
@@ -46,15 +39,14 @@ public class BlockFan extends BlockTileEntity {
    public int getBlockTextureFromSideAndMetadata(Side side, int j) {
       int direction = SimpleTech.get3DDirectionFromMeta(j);
       if (direction > Direction.EAST.getId()) {
-         // Defaults to top/bottom texture.
-         return texCoordToIndex(this.topBottom[0], this.topBottom[1]);
+         return this.atlasIndices[Side.TOP.getId()]; // Defaults to top/bottom texture.
       } else if (side.getId() == direction) {
-            return texCoordToIndex(this.front[0], this.front[1]);
+         return this.atlasIndices[Side.SOUTH.getId()]; // Returns front texture.
       } else {
          if (side.getId() == Side.TOP.getId() || side.getId() == Side.BOTTOM.getId()) {
-            return texCoordToIndex(this.topBottom[0], this.topBottom[1]);
+            return this.atlasIndices[Side.TOP.getId()]; // Returns top/bottom texture.
          } else {
-            return texCoordToIndex(this.side[0], this.side[1]);
+            return this.atlasIndices[Side.EAST.getId()]; // Returns one of the sides texture.
          }
       }
    }

@@ -10,6 +10,7 @@ import net.minecraft.core.util.helper.Direction;
 import net.minecraft.core.world.World;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import turniplabs.halplibe.helper.BlockBuilder;
 import turniplabs.halplibe.helper.BlockHelper;
 import turniplabs.halplibe.helper.EntityHelper;
 import turniplabs.halplibe.helper.RecipeHelper;
@@ -29,17 +30,27 @@ public class SimpleTech implements ModInitializer {
     public static final int LIGHT_SENSOR_ID = 3793;
     public static final int ALLOCATOR_ID = 3794;
 
+
+    // Builders
+    public static final BlockBuilder miscBuilder = new BlockBuilder(MOD_ID)
+            .setTopBottomTexture("misc_top_bottom.png")
+            .setEastTexture("misc_side.png")
+            .setWestTexture("misc_side.png")
+            .setNorthTexture("misc_side.png")
+            .setHardness(1.5f)
+            .setResistance(10.0f)
+            .setLuminance(0)
+            .setBlockSound(BlockSounds.STONE);
+
     // Blocks
-    public static final Block unpoweredFan = BlockHelper.createBlock(
-            MOD_ID, new BlockFan("block.fan.unpowered", UNPOWERED_FAN_ID, Material.stone,false,
-                    "misc_top_bottom.png","misc_side.png","fan_front.png"),
-            BlockSounds.STONE, 1.5f, 10.0f, 0.0f)
-            .withTags(BlockTags.MINEABLE_BY_PICKAXE);
-    public static final Block poweredFan = BlockHelper.createBlock(
-            MOD_ID, new BlockFan("block.fan.powered", POWERED_FAN_ID, Material.stone,true,
-                    "misc_top_bottom.png","misc_side.png","fan_front_powered.png"),
-            BlockSounds.STONE, 1.5f, 10.0f, 0.0f)
-            .withTags(BlockTags.NOT_IN_CREATIVE_MENU, BlockTags.MINEABLE_BY_PICKAXE);
+    public static final Block unpoweredFan = miscBuilder
+            .setSouthTexture("fan_front.png")
+            .setTags(BlockTags.MINEABLE_BY_PICKAXE)
+            .build(new BlockFan("fan.unpowered", UNPOWERED_FAN_ID, Material.stone, false));
+    public static final Block poweredFan = miscBuilder
+            .setSouthTexture("fan_front_powered.png")
+            .setTags(BlockTags.NOT_IN_CREATIVE_MENU, BlockTags.MINEABLE_BY_PICKAXE)
+            .build(new BlockFan("fan.powered", POWERED_FAN_ID, Material.stone, true));
     public static final Block jumpPad = BlockHelper.createBlock(
             MOD_ID, new BlockJumpPad("block.jumppad", JUMP_PAD_ID, Material.wood),
             "jump_pad.png", BlockSounds.WOOD, 1.0f, 2.5f, 0.0f)

@@ -1,7 +1,7 @@
-tile.block.fan.unpowered.name=Fan
-tile.block.fan.unpowered.desc=Fan goes whoosh!
-tile.block.fan.powered.name=Powered Fan
-tile.block.fan.powered.desc=Fan goes whoosh!
+tile.simpletech.fan.unpowered.name=Fan
+tile.simpletech.fan.unpowered.desc=Fan goes whoosh!
+tile.simpletech.fan.powered.name=Powered Fan
+tile.simpletech.fan.powered.desc=Fan goes whoosh!
 tile.block.jumppad.name=Jump Pad
 tile.block.jumppad.desc=Boing! Hop hop!
 tile.chest.trapped.name=Trapped Chest

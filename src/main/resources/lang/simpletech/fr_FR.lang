@@ -1,7 +1,7 @@
-tile.block.fan.unpowered.name=Ventilateur
-tile.block.fan.unpowered.desc=
-tile.block.fan.powered.name=Ventilateur en marche
-tile.block.fan.powered.desc=
+tile.simpletech.fan.unpowered.name=Ventilateur
+tile.simpletech.fan.unpowered.desc=
+tile.simpletech.fan.powered.name=Ventilateur en marche
+tile.simpletech.fan.powered.desc=
 tile.block.jumppad.name=Trampoline
 tile.block.jumppad.desc=Boing !
 tile.chest.trapped.name=Coffre piégé
