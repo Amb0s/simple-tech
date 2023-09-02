@@ -11,7 +11,6 @@ import net.minecraft.core.world.World;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import turniplabs.halplibe.helper.BlockBuilder;
-import turniplabs.halplibe.helper.BlockHelper;
 import turniplabs.halplibe.helper.EntityHelper;
 import turniplabs.halplibe.helper.RecipeHelper;
 import turniplabs.simpletech.block.*;
@@ -29,7 +28,6 @@ public class SimpleTech implements ModInitializer {
     public static final int TRAPPED_CHEST_ID = 3792;
     public static final int LIGHT_SENSOR_ID = 3793;
     public static final int ALLOCATOR_ID = 3794;
-
 
     // Builders
     public static final BlockBuilder miscBuilder = new BlockBuilder(MOD_ID)
@@ -51,25 +49,43 @@ public class SimpleTech implements ModInitializer {
             .setSouthTexture("fan_front_powered.png")
             .setTags(BlockTags.NOT_IN_CREATIVE_MENU, BlockTags.MINEABLE_BY_PICKAXE)
             .build(new BlockFan("fan.powered", POWERED_FAN_ID, Material.stone, true));
-    public static final Block jumpPad = BlockHelper.createBlock(
-            MOD_ID, new BlockJumpPad("block.jumppad", JUMP_PAD_ID, Material.wood),
-            "jump_pad.png", BlockSounds.WOOD, 1.0f, 2.5f, 0.0f)
-            .withTags(BlockTags.MINEABLE_BY_AXE);
-    public static final Block trappedChest = BlockHelper.createBlock(
-                    MOD_ID, new BlockTrappedChest("chest.trapped", TRAPPED_CHEST_ID, Material.wood),
-                    BlockSounds.WOOD, 2.5f, 5.0f, 0.0f)
-            .withTags(BlockTags.FENCES_CONNECT, BlockTags.MINEABLE_BY_AXE);
-    public static final Block lightSensor = BlockHelper.createBlock(
-                    MOD_ID, new BlockLightSensor("block.lightsensor", LIGHT_SENSOR_ID, Material.wood),
-                    "light_sensor.png", BlockSounds.WOOD, 1.0f, 2.5f, 0.0f)
-            .withTags(BlockTags.MINEABLE_BY_AXE);
-    public static final Block allocator = BlockHelper.createBlock(
-                    MOD_ID, new BlockAllocator("block.allocator", ALLOCATOR_ID, Material.stone,
-                            "misc_top_bottom.png", "misc_side.png", "allocator_front.png",
-                            "allocator_back.png", "allocator_front_top_bottom.png",
-                            "allocator_back_top_bottom.png", true, true),
-                    BlockSounds.STONE, 1.5f, 10.0f, 0.0f)
-            .withTags(BlockTags.MINEABLE_BY_PICKAXE);
+    public static final Block jumpPad = new BlockBuilder(MOD_ID)
+            .setTextures("jump_pad.png")
+            .setHardness(1.0f)
+            .setResistance(2.5f)
+            .setLuminance(0)
+            .setBlockSound(BlockSounds.WOOD)
+            .setTags(BlockTags.MINEABLE_BY_AXE)
+            .build(new BlockJumpPad("jumppad", JUMP_PAD_ID, Material.wood));
+    public static final Block trappedChest = new BlockBuilder(MOD_ID)
+            .setHardness(2.5f)
+            .setResistance(5.0f)
+            .setLuminance(0)
+            .setBlockSound(BlockSounds.WOOD)
+            .setTags(BlockTags.FENCES_CONNECT, BlockTags.MINEABLE_BY_AXE)
+            .build(new BlockTrappedChest("chest.trapped", TRAPPED_CHEST_ID, Material.wood));
+    public static final Block lightSensor = new BlockBuilder(MOD_ID)
+            .setTextures("light_sensor.png")
+            .setHardness(1.0f)
+            .setResistance(2.5f)
+            .setLuminance(0)
+            .setBlockSound(BlockSounds.WOOD)
+            .setTags(BlockTags.MINEABLE_BY_AXE)
+            .build(new BlockLightSensor("lightsensor", LIGHT_SENSOR_ID, Material.wood));
+    public static final Block allocator = new BlockBuilder(MOD_ID)
+            .setTopTexture("allocator_back_top_bottom.png")
+            .setBottomTexture("allocator_front_top_bottom.png")
+            .setEastTexture("misc_side.png")
+            .setWestTexture("misc_top_bottom.png")
+            .setNorthTexture("allocator_back.png")
+            .setSouthTexture("allocator_front.png")
+            .setHardness(1.5f)
+            .setResistance(10.0f)
+            .setLuminance(0)
+            .setBlockSound(BlockSounds.STONE)
+            .setTags(BlockTags.MINEABLE_BY_PICKAXE)
+            .build(new BlockAllocator("allocator", ALLOCATOR_ID, Material.stone, true,
+                    true));
 
     @Override
     public void onInitialize() {

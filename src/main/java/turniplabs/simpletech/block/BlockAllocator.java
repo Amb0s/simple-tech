@@ -20,7 +20,6 @@ import net.minecraft.core.util.helper.Direction;
 import net.minecraft.core.util.helper.Side;
 import net.minecraft.core.util.phys.AABB;
 import net.minecraft.core.world.World;
-import turniplabs.halplibe.helper.TextureHelper;
 import turniplabs.simpletech.gui.GuiAllocator;
 import turniplabs.simpletech.SimpleTech;
 import turniplabs.simpletech.block.entity.TileEntityAllocator;
@@ -29,40 +28,13 @@ import java.util.List;
 import java.util.Random;
 
 public class BlockAllocator extends BlockTileEntity {
-	private final int[] top;
-	private final int[] side;
-	private final int[] front;
-	private final int[] back;
-	private final int[] backTopBottom;
-	private final int[] frontTopBottom;
 	private final boolean allowFiltering;
 	private final boolean subItemFiltering;
 
-	public BlockAllocator(String key, int id, Material material,
-						  String top, String side, String front, String back,
-						  String frontTopBottom, String backTopBottom,
-						  boolean allowFiltering, boolean subItemFiltering) {
+	public BlockAllocator(String key, int id, Material material, boolean allowFiltering, boolean subItemFiltering) {
 		super(key, id, material);
 		this.allowFiltering = allowFiltering;
 		this.subItemFiltering = subItemFiltering;
-		this.top = TextureHelper.registerBlockTexture(SimpleTech.MOD_ID, top);
-		this.side = TextureHelper.registerBlockTexture(SimpleTech.MOD_ID, side);
-		this.front = TextureHelper.registerBlockTexture(SimpleTech.MOD_ID, front);
-		this.back = TextureHelper.registerBlockTexture(SimpleTech.MOD_ID, back);
-		this.frontTopBottom = TextureHelper.registerBlockTexture(SimpleTech.MOD_ID, frontTopBottom);
-		this.backTopBottom = TextureHelper.registerBlockTexture(SimpleTech.MOD_ID, backTopBottom);
-	}
-
-	public int[] getTop() {
-		return this.top;
-	}
-
-	public int[] getBack() {
-		return this.back;
-	}
-
-	public int[] getFront() {
-		return this.front;
 	}
 
 	@Override
@@ -118,22 +90,22 @@ public class BlockAllocator extends BlockTileEntity {
 		int direction = SimpleTech.get3DDirectionFromMeta(meta);
 
 		if (direction > 5) {
-			return texCoordToIndex(this.top[0], this.top[1]);
+			return this.atlasIndices[Side.WEST.getId()]; // Defaults to top/bottom texture.
 		} else if (side.getId() == SimpleTech.getOppositeDirectionById(direction)) {
 			if (side.getId() == Side.TOP.getId() || side.getId() == Side.BOTTOM.getId()) {
-				return texCoordToIndex(this.backTopBottom[0], this.backTopBottom[1]);
+				return this.atlasIndices[Side.TOP.getId()]; // Returns back top/bottom texture.
 			}
-			return texCoordToIndex(this.back[0], this.back[1]);
+			return this.atlasIndices[Side.NORTH.getId()]; // Returns back texture.
 		} else if (side.getId() == direction) {
 			if (side.getId() == Side.TOP.getId() || side.getId() == Side.BOTTOM.getId()) {
-				return texCoordToIndex(this.frontTopBottom[0], this.frontTopBottom[1]);
+				return this.atlasIndices[Side.BOTTOM.getId()]; // Returns front top/bottom texture.
 			}
-			return texCoordToIndex(this.front[0], this.front[1]);
+			return this.atlasIndices[Side.SOUTH.getId()]; // Returns front texture.
 		} else {
 			if (side.getId() == Side.TOP.getId() || side.getId() == Side.BOTTOM.getId()) {
-				return texCoordToIndex(this.top[0], this.top[1]);
+				return this.atlasIndices[Side.WEST.getId()]; // Returns top/bottom texture.
 			} else {
-				return texCoordToIndex(this.side[0], this.side[1]);
+				return this.atlasIndices[Side.EAST.getId()]; // Returns side texture.
 			}
 		}
 	}

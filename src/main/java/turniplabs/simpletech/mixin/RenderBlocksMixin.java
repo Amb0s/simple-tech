@@ -17,30 +17,25 @@ final class RenderBlocksMixin {
     private int changeBlockInventoryRender(Block block, Side side, int meta) {
         if (block instanceof BlockFan) {
             if (side == Side.SOUTH) {
-                return block.getBlockTextureFromSideAndMetadata(Side.BOTTOM, meta);
+                return block.atlasIndices[Side.SOUTH.getId()]; // Returns front texture.
             }
 
             if (side == Side.BOTTOM) {
-                return block.getBlockTextureFromSideAndMetadata(Side.TOP, meta);
+                return block.atlasIndices[Side.TOP.getId()]; // Returns top/bottom texture.
             }
         }
 
         if (block instanceof BlockAllocator) {
-            BlockAllocator allocator = ((BlockAllocator) block);
-            if (side == Side.TOP) {
-                return Block.texCoordToIndex(allocator.getTop()[0], allocator.getTop()[1]);
-            }
-
-            if (side == Side.BOTTOM) {
-                return Block.texCoordToIndex(allocator.getTop()[0], allocator.getTop()[1]);
+            if (side == Side.TOP || side == Side.BOTTOM) {
+                return block.atlasIndices[Side.WEST.getId()]; // Returns top/bottom texture.
             }
 
             if (side == Side.SOUTH) {
-                return Block.texCoordToIndex(allocator.getFront()[0], allocator.getFront()[1]);
+                return block.atlasIndices[Side.SOUTH.getId()]; // Returns front texture.
             }
 
             if (side == Side.NORTH) {
-                return Block.texCoordToIndex(allocator.getBack()[0], allocator.getBack()[1]);
+                return block.atlasIndices[Side.NORTH.getId()]; // Returns back texture.
             }
         }
 
