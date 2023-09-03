@@ -30,62 +30,51 @@ public class SimpleTech implements ModInitializer {
     public static final int ALLOCATOR_ID = 3794;
 
     // Builders
-    public static final BlockBuilder miscBuilder = new BlockBuilder(MOD_ID)
-            .setTopBottomTexture("misc_top_bottom.png")
-            .setEastTexture("misc_side.png")
-            .setWestTexture("misc_side.png")
-            .setNorthTexture("misc_side.png")
+    public static final BlockBuilder stoneBlockBuilder = new BlockBuilder(MOD_ID)
             .setHardness(1.5f)
             .setResistance(10.0f)
             .setLuminance(0)
-            .setBlockSound(BlockSounds.STONE);
+            .setBlockSound(BlockSounds.STONE)
+            .setTags(BlockTags.MINEABLE_BY_PICKAXE);
+    public static final BlockBuilder fanBuilder = stoneBlockBuilder
+            .setTopBottomTexture("misc_top_bottom.png")
+            .setEastTexture("misc_side.png")
+            .setWestTexture("misc_side.png")
+            .setNorthTexture("misc_side.png");
+    public static final BlockBuilder woodenBlockBuilder = new BlockBuilder(MOD_ID)
+            .setHardness(1.0f)
+            .setResistance(2.5f)
+            .setLuminance(0)
+            .setBlockSound(BlockSounds.WOOD)
+            .setTags(BlockTags.MINEABLE_BY_AXE);
 
     // Blocks
-    public static final Block unpoweredFan = miscBuilder
+    public static final Block unpoweredFan = fanBuilder
             .setSouthTexture("fan_front.png")
-            .setTags(BlockTags.MINEABLE_BY_PICKAXE)
             .build(new BlockFan("fan.unpowered", UNPOWERED_FAN_ID, Material.stone, false));
-    public static final Block poweredFan = miscBuilder
+    public static final Block poweredFan = fanBuilder
             .setSouthTexture("fan_front_powered.png")
-            .setTags(BlockTags.NOT_IN_CREATIVE_MENU, BlockTags.MINEABLE_BY_PICKAXE)
+            .setTags(BlockTags.NOT_IN_CREATIVE_MENU)
             .build(new BlockFan("fan.powered", POWERED_FAN_ID, Material.stone, true));
-    public static final Block jumpPad = new BlockBuilder(MOD_ID)
+    public static final Block jumpPad = woodenBlockBuilder
             .setTextures("jump_pad.png")
-            .setHardness(1.0f)
-            .setResistance(2.5f)
-            .setLuminance(0)
-            .setBlockSound(BlockSounds.WOOD)
-            .setTags(BlockTags.MINEABLE_BY_AXE)
             .build(new BlockJumpPad("jumppad", JUMP_PAD_ID, Material.wood));
-    public static final Block trappedChest = new BlockBuilder(MOD_ID)
+    public static final Block trappedChest = woodenBlockBuilder
             .setHardness(2.5f)
             .setResistance(5.0f)
-            .setLuminance(0)
-            .setBlockSound(BlockSounds.WOOD)
-            .setTags(BlockTags.FENCES_CONNECT, BlockTags.MINEABLE_BY_AXE)
+            .setTags(BlockTags.MINEABLE_BY_AXE, BlockTags.FENCES_CONNECT)
             .build(new BlockTrappedChest("chest.trapped", TRAPPED_CHEST_ID, Material.wood));
-    public static final Block lightSensor = new BlockBuilder(MOD_ID)
+    public static final Block lightSensor = woodenBlockBuilder
             .setTextures("light_sensor.png")
-            .setHardness(1.0f)
-            .setResistance(2.5f)
-            .setLuminance(0)
-            .setBlockSound(BlockSounds.WOOD)
-            .setTags(BlockTags.MINEABLE_BY_AXE)
             .build(new BlockLightSensor("lightsensor", LIGHT_SENSOR_ID, Material.wood));
-    public static final Block allocator = new BlockBuilder(MOD_ID)
+    public static final Block allocator = stoneBlockBuilder
             .setTopTexture("allocator_back_top_bottom.png")
             .setBottomTexture("allocator_front_top_bottom.png")
             .setEastTexture("misc_side.png")
             .setWestTexture("misc_top_bottom.png")
             .setNorthTexture("allocator_back.png")
             .setSouthTexture("allocator_front.png")
-            .setHardness(1.5f)
-            .setResistance(10.0f)
-            .setLuminance(0)
-            .setBlockSound(BlockSounds.STONE)
-            .setTags(BlockTags.MINEABLE_BY_PICKAXE)
-            .build(new BlockAllocator("allocator", ALLOCATOR_ID, Material.stone, true,
-                    true));
+            .build(new BlockAllocator("allocator", ALLOCATOR_ID, Material.stone, true, true));
 
     @Override
     public void onInitialize() {
@@ -154,8 +143,8 @@ public class SimpleTech implements ModInitializer {
         return setBit(metadata, invertedOffset, inverted);
     }
 
-    public static int get3DDirectionFromMeta(int meta) {
-        return meta & 7;
+    public static int get3DDirectionFromMeta(int metadata) {
+        return metadata & 7;
     }
 
     public static int getOppositeDirectionById(int i) {
