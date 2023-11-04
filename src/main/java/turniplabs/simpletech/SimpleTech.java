@@ -13,6 +13,9 @@ import org.slf4j.LoggerFactory;
 import turniplabs.halplibe.helper.BlockBuilder;
 import turniplabs.halplibe.helper.EntityHelper;
 import turniplabs.halplibe.helper.RecipeHelper;
+import turniplabs.halplibe.util.ConfigUpdater;
+import turniplabs.halplibe.util.TomlConfigHandler;
+import turniplabs.halplibe.util.toml.Toml;
 import turniplabs.simpletech.block.*;
 import turniplabs.simpletech.block.entity.TileEntityAllocator;
 import turniplabs.simpletech.block.entity.TileEntityFan;
@@ -21,13 +24,42 @@ import turniplabs.simpletech.block.entity.TileEntityLightSensor;
 public class SimpleTech implements ModInitializer {
     public static final String MOD_ID = "simpletech";
     public static final Logger LOGGER = LoggerFactory.getLogger(MOD_ID);
-    public static final int FAN_RANGE = 4;
-    public static final int UNPOWERED_FAN_ID = 3789;
-    public static final int POWERED_FAN_ID = 3790;
-    public static final int JUMP_PAD_ID = 3791;
-    public static final int TRAPPED_CHEST_ID = 3792;
-    public static final int LIGHT_SENSOR_ID = 3793;
-    public static final int ALLOCATOR_ID = 3794;
+    public static final TomlConfigHandler config;
+    public static final int FAN_RANGE;
+    public static final int UNPOWERED_FAN_ID;
+    public static final int POWERED_FAN_ID;
+    public static final int JUMP_PAD_ID;
+    public static final int TRAPPED_CHEST_ID;
+    public static final int LIGHT_SENSOR_ID;
+    public static final int ALLOCATOR_ID;
+    public static final int ALLOCATOR_GUI_ID;
+    static {
+        Toml configToml = new Toml();
+        configToml.addCategory("BlockIDs");
+        configToml.addEntry("BlockIDs.UNPOWERED_FAN_ID", 3789);
+        configToml.addEntry("BlockIDs.POWERED_FAN_ID", 3790);
+        configToml.addEntry("BlockIDs.JUMP_PAD_ID", 3791);
+        configToml.addEntry("BlockIDs.TRAPPED_CHEST_ID", 3792);
+        configToml.addEntry("BlockIDs.LIGHT_SENSOR_ID", 3793);
+        configToml.addEntry("BlockIDs.ALLOCATOR_ID", 3794);
+        configToml.addCategory("Settings");
+        configToml.addEntry("Settings.FAN_RANGE", 4);
+        configToml.addCategory("GUI");
+        configToml.addEntry("GUI.ALLOCATOR_GUI_ID", 13);
+        ConfigUpdater stupidDesignDecision = new ConfigUpdater() {public void update() {}};
+
+
+        config = new TomlConfigHandler(stupidDesignDecision, MOD_ID, configToml);
+        FAN_RANGE = config.getInt("Settings.FAN_RANGE");
+        UNPOWERED_FAN_ID = config.getInt("BlockIDs.UNPOWERED_FAN_ID");
+        POWERED_FAN_ID = config.getInt("BlockIDs.POWERED_FAN_ID");
+        JUMP_PAD_ID = config.getInt("BlockIDs.JUMP_PAD_ID");
+        TRAPPED_CHEST_ID = config.getInt("BlockIDs.TRAPPED_CHEST_ID");
+        LIGHT_SENSOR_ID = config.getInt("BlockIDs.LIGHT_SENSOR_ID");
+        ALLOCATOR_ID = config.getInt("BlockIDs.ALLOCATOR_ID");
+        ALLOCATOR_GUI_ID = config.getInt("GUI.ALLOCATOR_GUI_ID");
+    }
+
 
     // Builders
     public static final BlockBuilder stoneBlockBuilder = new BlockBuilder(MOD_ID)

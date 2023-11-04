@@ -1,6 +1,5 @@
 package turniplabs.simpletech.block;
 
-import net.minecraft.client.Minecraft;
 import net.minecraft.core.block.Block;
 import net.minecraft.core.block.BlockTileEntity;
 import net.minecraft.core.block.entity.TileEntity;
@@ -20,7 +19,7 @@ import net.minecraft.core.util.helper.Direction;
 import net.minecraft.core.util.helper.Side;
 import net.minecraft.core.util.phys.AABB;
 import net.minecraft.core.world.World;
-import turniplabs.simpletech.gui.GuiAllocator;
+import turniplabs.simpletech.IPlayerDisplayer;
 import turniplabs.simpletech.SimpleTech;
 import turniplabs.simpletech.block.entity.TileEntityAllocator;
 
@@ -50,11 +49,7 @@ public class BlockAllocator extends BlockTileEntity {
 			return true;
 		} else {
 			TileEntityAllocator allocator = (TileEntityAllocator) world.getBlockTileEntity(x, y, z);
-
-			if (allocator != null) {
-				Minecraft.getMinecraft(Minecraft.class).displayGuiScreen(new GuiAllocator(player.inventory, allocator));
-			}
-
+			((IPlayerDisplayer)player).simple_tech$displayGUIAllocator(allocator);
 			return true;
 		}
 	}

@@ -7,7 +7,7 @@ import turniplabs.simpletech.block.entity.TileEntityAllocator;
 import turniplabs.simpletech.player.inventory.ContainerAllocator;
 
 public class GuiAllocator extends GuiContainer {
-	private TileEntityAllocator allocatorInv;
+	private final TileEntityAllocator allocatorInv;
 
 	public GuiAllocator(InventoryPlayer playerInventory, TileEntityAllocator allocator) {
 		super(new ContainerAllocator(playerInventory, allocator));
