@@ -13,6 +13,7 @@
     "issues": "https://github.com/Turnip-Labs/simple-tech/issues"
   },
   "license": "CC-BY-NC-SA-3.0",
+  "icon": "icon.png",
   "environment": "*",
   "entrypoints": {
     "main": [
