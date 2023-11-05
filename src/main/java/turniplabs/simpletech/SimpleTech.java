@@ -33,6 +33,8 @@ public class SimpleTech implements ModInitializer {
     public static final int LIGHT_SENSOR_ID;
     public static final int ALLOCATOR_ID;
     public static final int ALLOCATOR_GUI_ID;
+    public static final int NOT_GATE_IDLE_ID;
+    public static final int NOT_GATE_ACTIVE_ID;
     static {
         Toml configToml = new Toml();
         configToml.addCategory("BlockIDs");
@@ -42,6 +44,8 @@ public class SimpleTech implements ModInitializer {
         configToml.addEntry("BlockIDs.TRAPPED_CHEST_ID", 3792);
         configToml.addEntry("BlockIDs.LIGHT_SENSOR_ID", 3793);
         configToml.addEntry("BlockIDs.ALLOCATOR_ID", 3794);
+        configToml.addEntry("BlockIDs.NOT_GATE_IDLE_ID", 3795);
+        configToml.addEntry("BlockIDs.NOT_GATE_ACTIVE_ID", 3796);
         configToml.addCategory("Settings");
         configToml.addEntry("Settings.FAN_RANGE", 4);
         configToml.addCategory("GUI");
@@ -58,6 +62,8 @@ public class SimpleTech implements ModInitializer {
         LIGHT_SENSOR_ID = config.getInt("BlockIDs.LIGHT_SENSOR_ID");
         ALLOCATOR_ID = config.getInt("BlockIDs.ALLOCATOR_ID");
         ALLOCATOR_GUI_ID = config.getInt("GUI.ALLOCATOR_GUI_ID");
+        NOT_GATE_IDLE_ID = config.getInt("BlockIDs.NOT_GATE_IDLE_ID");
+        NOT_GATE_ACTIVE_ID = config.getInt("BlockIDs.NOT_GATE_ACTIVE_ID");
     }
 
 
@@ -78,6 +84,12 @@ public class SimpleTech implements ModInitializer {
             .setResistance(2.5f)
             .setLuminance(0)
             .setBlockSound(BlockSounds.WOOD)
+            .setTags(BlockTags.MINEABLE_BY_AXE);
+    public static final BlockBuilder gateBlockBuilder = new BlockBuilder(MOD_ID)
+            .setHardness(0.0f)
+            .setResistance(0.0f)
+            .setLuminance(0)
+            .setBlockSound(BlockSounds.STONE)
             .setTags(BlockTags.MINEABLE_BY_AXE);
 
     // Blocks
@@ -107,6 +119,22 @@ public class SimpleTech implements ModInitializer {
             .setNorthTexture("allocator_back.png")
             .setSouthTexture("allocator_front.png")
             .build(new BlockAllocator("allocator", ALLOCATOR_ID, Material.stone, true, true));
+    public static final Block notGateIdle = gateBlockBuilder
+            .setTopTexture("gate_top.png")
+            .setNorthTexture("gate_top.png")
+            .setEastTexture("gate_top.png")
+            .setWestTexture("gate_top.png")
+            .setSouthTexture("gate_top.png")
+            .setBottomTexture("gate_top.png")
+            .build(new BlockRedstoneNotGate("not.gate.idle", NOT_GATE_IDLE_ID, Material.stone, false));
+    public static final Block notGateActive = gateBlockBuilder
+            .setTopTexture("gate_top_powered.png")
+            .setNorthTexture("gate_top_powered.png")
+            .setEastTexture("gate_top_powered.png")
+            .setWestTexture("gate_top_powered.png")
+            .setSouthTexture("gate_top_powered.png")
+            .setBottomTexture("gate_top_powered.png")
+            .build(new BlockRedstoneNotGate("not.gate.active", NOT_GATE_ACTIVE_ID, Material.stone, true));
 
     @Override
     public void onInitialize() {
