@@ -2,6 +2,8 @@
 
 ## Additions
 * Pfaeff's mod items (fan, jump pad, light sensor, allocator)
+* Better than Wolves (soon)
+* Logicates
 
 ## Instructions
 
