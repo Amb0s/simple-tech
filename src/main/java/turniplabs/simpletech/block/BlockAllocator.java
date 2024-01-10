@@ -143,7 +143,7 @@ public class BlockAllocator extends BlockTileEntity {
 
 	protected boolean blockingCubeAtPos(World world, int x, int y, int z) {
 		int blockID = world.getBlockId(x, y, z);
-		boolean isOpaque = Block.opaqueCubeLookup[blockID];
+		boolean isOpaque = Block.translucent[blockID];
 
 		return isOpaque || blockID == Block.glass.id ||
 				blockID == Block.cactus.id ||
@@ -208,7 +208,7 @@ public class BlockAllocator extends BlockTileEntity {
 			List<Entity> index = world.getEntitiesWithinAABB(IInventory.class, AABB.getBoundingBoxFromPool(
 					x + dx, y + dy, z + dz, x + dx + 1, y + dy + 1, z + dz + 1));
 
-			if (index.size() > 0 && (!(index.get(0) instanceof EntityMinecart) ||
+			if (!index.isEmpty() && (!(index.get(0) instanceof EntityMinecart) ||
 					((EntityMinecart) index.get(0)).minecartType == 1)) {
 				outputContainer = (IInventory) index.get(0);
 			}
@@ -277,7 +277,7 @@ public class BlockAllocator extends BlockTileEntity {
 			entities = world.getEntitiesWithinAABB(IInventory.class, AABB.getBoundingBoxFromPool(
 					x - dx, y - dy, z - dz, x - dx + 1, y - dy + 1, z - dz + 1));
 
-			if (entities.size() > 0 && (!(entities.get(0) instanceof EntityMinecart) ||
+			if (!entities.isEmpty() && (!(entities.get(0) instanceof EntityMinecart) ||
 					((EntityMinecart)entities.get(0)).minecartType == 1)) {
 				inputContainer = (IInventory) entities.get(0);
 			}

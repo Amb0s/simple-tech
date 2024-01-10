@@ -6,13 +6,12 @@
   "mixins": [
     "EntityItemMixin",
     "EntityPlayerMixin",
-    "EntityPlayerMPMixin",
-    "EntityPlayerSPMixin",
-    "MinecraftMixin",
-    "NetClientHandlerMixin",
-    "RenderBlocksMixin"
+    "EntityPlayerMPMixin"
   ],
   "client": [
+    "EntityPlayerSPMixin",
+    "NetClientHandlerMixin",
+    "RenderBlocksMixin"
   ],
   "injectors": {
     "defaultRequire": 1

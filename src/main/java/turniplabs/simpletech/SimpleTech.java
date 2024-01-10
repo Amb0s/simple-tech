@@ -1,26 +1,29 @@
 package turniplabs.simpletech;
 
-import net.fabricmc.api.ModInitializer;
 import net.minecraft.client.sound.block.BlockSounds;
 import net.minecraft.core.block.Block;
 import net.minecraft.core.block.material.Material;
 import net.minecraft.core.block.tag.BlockTags;
-import net.minecraft.core.item.Item;
 import net.minecraft.core.util.helper.Direction;
 import net.minecraft.core.world.World;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import turniplabs.halplibe.helper.BlockBuilder;
 import turniplabs.halplibe.helper.EntityHelper;
-import turniplabs.halplibe.helper.RecipeHelper;
+import turniplabs.halplibe.util.GameStartEntrypoint;
 import turniplabs.halplibe.util.TomlConfigHandler;
 import turniplabs.halplibe.util.toml.Toml;
-import turniplabs.simpletech.block.*;
+import turniplabs.simpletech.block.BlockAllocator;
+import turniplabs.simpletech.block.BlockFan;
+import turniplabs.simpletech.block.BlockJumpPad;
+import turniplabs.simpletech.block.BlockLightSensor;
+import turniplabs.simpletech.block.BlockRedstoneNotGate;
+import turniplabs.simpletech.block.BlockTrappedChest;
 import turniplabs.simpletech.block.entity.TileEntityAllocator;
 import turniplabs.simpletech.block.entity.TileEntityFan;
 import turniplabs.simpletech.block.entity.TileEntityLightSensor;
 
-public class SimpleTech implements ModInitializer {
+public class SimpleTech implements GameStartEntrypoint {
     public static final String MOD_ID = "simpletech";
     public static final Logger LOGGER = LoggerFactory.getLogger(MOD_ID);
     public static final TomlConfigHandler config;
@@ -104,6 +107,7 @@ public class SimpleTech implements ModInitializer {
             .setHardness(2.5f)
             .setResistance(5.0f)
             .setTags(BlockTags.MINEABLE_BY_AXE, BlockTags.FENCES_CONNECT)
+            .setTickOnLoad()
             .build(new BlockTrappedChest("chest.trapped", TRAPPED_CHEST_ID, Material.wood));
     public static final Block lightSensor = woodenBlockBuilder
             .setTextures("light_sensor.png")
@@ -134,45 +138,17 @@ public class SimpleTech implements ModInitializer {
             .build(new BlockRedstoneNotGate("not.gate.active", NOT_GATE_ACTIVE_ID, Material.stone, true));
 
     @Override
-    public void onInitialize() {
+    public void beforeGameStart() {
         // Entities.
-        EntityHelper.createTileEntity(TileEntityFan.class, "Fan");
-        EntityHelper.createTileEntity(TileEntityLightSensor.class, "Light Sensor");
-        EntityHelper.createTileEntity(TileEntityAllocator.class, "Allocator");
-
-        // Recipes.
-        RecipeHelper.Crafting.createRecipe(unpoweredFan, 1, new Object[]{
-                        "CCC",
-                        "CIC",
-                        "CRC",
-                        'C', Block.cobbleStone,
-                        'I', Item.ingotIron,
-                        'R', Item.dustRedstone
-        });
-        RecipeHelper.Crafting.createShapelessRecipe(jumpPad, 1, new Object[]{
-                Item.slimeball, Block.slabPlanksOak
-        });
-        RecipeHelper.Crafting.createShapelessRecipe(trappedChest, 1, new Object[]{
-                Item.dustRedstone, Block.chestPlanksOak
-        });
-        RecipeHelper.Crafting.createRecipe(lightSensor, 1, new Object[]{
-                " G ",
-                " Q ",
-                " S ",
-                'G', Block.glass,
-                'Q', Item.quartz,
-                'S', Block.slabPlanksOak
-        });
-        RecipeHelper.Crafting.createRecipe(allocator, 1, new Object[]{
-                "CRC",
-                "CGC",
-                "CRC",
-                'C', Block.cobbleStone,
-                'R', Item.dustRedstone,
-                'G', Item.ingotGold,
-        });
-
+        EntityHelper.Core.createTileEntity(TileEntityFan.class, "Fan");
+        EntityHelper.Core.createTileEntity(TileEntityLightSensor.class, "Light Sensor");
+        EntityHelper.Core.createTileEntity(TileEntityAllocator.class, "Allocator");
         LOGGER.info("Simple Tech initialized.");
+    }
+
+    @Override
+    public void afterGameStart() {
+
     }
 
     public static int setBit(int number, int position, int bit) {
