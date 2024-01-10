@@ -13,7 +13,6 @@ import org.slf4j.LoggerFactory;
 import turniplabs.halplibe.helper.BlockBuilder;
 import turniplabs.halplibe.helper.EntityHelper;
 import turniplabs.halplibe.helper.RecipeHelper;
-import turniplabs.halplibe.util.ConfigUpdater;
 import turniplabs.halplibe.util.TomlConfigHandler;
 import turniplabs.halplibe.util.toml.Toml;
 import turniplabs.simpletech.block.*;
@@ -50,10 +49,8 @@ public class SimpleTech implements ModInitializer {
         configToml.addEntry("Settings.FAN_RANGE", 4);
         configToml.addCategory("GUI");
         configToml.addEntry("GUI.ALLOCATOR_GUI_ID", 13);
-        ConfigUpdater stupidDesignDecision = new ConfigUpdater() {public void update() {}};
 
-
-        config = new TomlConfigHandler(stupidDesignDecision, MOD_ID, configToml);
+        config = new TomlConfigHandler(MOD_ID, configToml);
         FAN_RANGE = config.getInt("Settings.FAN_RANGE");
         UNPOWERED_FAN_ID = config.getInt("BlockIDs.UNPOWERED_FAN_ID");
         POWERED_FAN_ID = config.getInt("BlockIDs.POWERED_FAN_ID");
