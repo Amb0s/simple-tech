@@ -16,7 +16,7 @@ public class BlockTrappedChest extends BlockChest {
     public BlockTrappedChest(String key, int id, Material material) {
         super(key, id, material);
         this.withTexCoords(9, 1, 9, 1, 11, 1, 10, 1, 10, 1, 10, 1);
-        this.setTickOnLoad(true);
+        this.setTicking(true);
     }
 
     @Override
@@ -25,7 +25,7 @@ public class BlockTrappedChest extends BlockChest {
     }
 
     @Override
-    public boolean isOpaqueCube() {
+    public boolean isSolidRender() {
         return false;
     }
 
@@ -45,12 +45,12 @@ public class BlockTrappedChest extends BlockChest {
     }
 
     @Override
-    public void onBlockRemoval(World world, int x, int y, int z) {
+    public void onBlockRemoved(World world, int x, int y, int z, int data) {
         if (SimpleTech.getRedstoneFromMetadata(world.getBlockMetadata(x, y, z), redstoneOffset) > 0) {
             this.notifyNeighbors(world, x, y, z);
         }
 
-        super.onBlockRemoval(world, x, y, z);
+        super.onBlockRemoved(world, x, y, z, data);
     }
 
     @Override

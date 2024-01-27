@@ -32,7 +32,7 @@ public class BlockRedstoneNotGate extends Block {
     }
 
     @Override
-    public boolean isOpaqueCube() {
+    public boolean isSolidRender() {
         return false;
     }
 
@@ -40,7 +40,7 @@ public class BlockRedstoneNotGate extends Block {
     public boolean renderAsNormalBlock() {
         return false;
     }
-
+    @Override
     public void updateTick(World world, int x, int y, int z, Random rand) {
         int l = world.getBlockMetadata(x, y, z);
         boolean isPowering = this.unknown(world, x, y, z, l);
@@ -50,7 +50,7 @@ public class BlockRedstoneNotGate extends Block {
             world.setBlockAndMetadataWithNotify(x, y, z, SimpleTech.notGateActive.id, l);
         }
     }
-
+    @Override
     public int getBlockTextureFromSideAndMetadata(Side side, int j) {
         if (side == Side.BOTTOM) {
             return !this.isPowered ? texCoordToIndex(3, 7) : texCoordToIndex(3, 6);
@@ -60,15 +60,15 @@ public class BlockRedstoneNotGate extends Block {
             return texCoordToIndex(5, 0);
         }
     }
-
+    @Override
     public boolean shouldSideBeRendered(WorldSource blockAccess, int x, int y, int z, int side) {
         return side != 0 && side != 1;
     }
-
+    @Override
     public boolean isIndirectlyPoweringTo(World world, int x, int y, int z, int side) {
         return this.isPoweringTo(world, x, y, z, side);
     }
-
+    @Override
     public boolean isPoweringTo(WorldSource blockAccess, int x, int y, int z, int side) {
         if (!this.isPowered) {
             return true;
@@ -85,7 +85,7 @@ public class BlockRedstoneNotGate extends Block {
             }
         }
     }
-
+    @Override
     public void onNeighborBlockChange(World world, int x, int y, int z, int blockId) {
         if (!this.canBlockStay(world, x, y, z)) {
             this.dropBlockWithCause(world, EnumDropCause.WORLD, x, y, z, world.getBlockMetadata(x, y, z), null);
@@ -125,11 +125,11 @@ public class BlockRedstoneNotGate extends Block {
                 return false;
         }
     }
-
+    @Override
     public boolean canProvidePower() {
         return false;
     }
-
+    @Override
     public void onBlockPlaced(World world, int x, int y, int z, Side side, EntityLiving entity, double sideHeight) {
         int l = entity.getHorizontalPlacementDirection(side).index;
         world.setBlockMetadataWithNotify(x, y, z, l);
@@ -138,7 +138,7 @@ public class BlockRedstoneNotGate extends Block {
             world.scheduleBlockUpdate(x, y, z, this.id, 1);
         }
     }
-
+    @Override
     public void onBlockAdded(World world, int i, int j, int k) {
         world.notifyBlocksOfNeighborChange(i + 1, j, k, this.id);
         world.notifyBlocksOfNeighborChange(i - 1, j, k, this.id);

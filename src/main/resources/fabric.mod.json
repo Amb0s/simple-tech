@@ -16,8 +16,11 @@
   "icon": "icon.png",
   "environment": "*",
   "entrypoints": {
-    "main": [
+    "beforeGameStart": [
         "turniplabs.simpletech.SimpleTech"
+    ],
+    "recipesReady": [
+      "turniplabs.simpletech.SimpleTechRecipes"
     ]
   },
   "mixins": [
@@ -25,7 +28,7 @@
   ],
   "depends": {
     "fabricloader": ">=0.13.3",
-    "halplibe": ">=2.1.6",
+    "halplibe": ">=2.6.0",
     "minecraft": ">=1.7.7.0"
   },
   "suggests": {

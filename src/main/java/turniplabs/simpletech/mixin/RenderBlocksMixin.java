@@ -11,7 +11,7 @@ import turniplabs.simpletech.block.BlockFan;
 
 @Mixin(value = RenderBlocks.class, remap = false)
 final class RenderBlocksMixin {
-    @Redirect(method = "renderBlockOnInventory", at = @At(value = "INVOKE",
+    @Redirect(method = "renderBlockOnInventory(Lnet/minecraft/core/block/Block;IFF)V", at = @At(value = "INVOKE",
             target = "Lnet/minecraft/core/block/Block;getBlockTextureFromSideAndMetadata(Lnet/minecraft/core/util/helper/Side;I)I"),
             require = 0)
     private int changeBlockInventoryRender(Block block, Side side, int meta) {

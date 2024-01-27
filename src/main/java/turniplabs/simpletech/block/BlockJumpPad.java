@@ -13,7 +13,7 @@ public class BlockJumpPad extends Block {
     }
 
     @Override
-    public boolean isOpaqueCube() {
+    public boolean isSolidRender() {
         return false;
     }
 

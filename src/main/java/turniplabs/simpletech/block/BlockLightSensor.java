@@ -27,7 +27,7 @@ public class BlockLightSensor extends BlockTileEntity {
     }
 
     @Override
-    public boolean isOpaqueCube() {
+    public boolean isSolidRender() {
         return false;
     }
 

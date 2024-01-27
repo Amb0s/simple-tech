@@ -1,0 +1,175 @@
+[
+  {
+    "name": "simpletech:workbench/fan",
+    "type": "minecraft:crafting/shaped",
+    "pattern": [
+      "CCC",
+      "CIC",
+      "CRC"
+    ],
+    "symbols": [
+      {
+        "symbol": "C",
+        "stack": {
+          "key": "tile.cobble.stone",
+          "amount": 1,
+          "meta": 0
+        }
+      },
+      {
+        "symbol": "I",
+        "stack": {
+          "key": "item.ingot.iron",
+          "amount": 1,
+          "meta": 0
+        }
+      },
+      {
+        "symbol": "R",
+        "stack": {
+          "key": "item.dust.redstone",
+          "amount": 1,
+          "meta": 0
+        }
+      }
+    ],
+    "result": {
+      "key": "tile.simpletech.fan.unpowered",
+      "amount": 1,
+      "meta": 0
+    },
+    "consumeContainers": true
+  },
+  {
+    "name": "simpletech:workbench/light_sensor",
+    "type": "minecraft:crafting/shaped",
+    "pattern": [
+      "G",
+      "Q",
+      "S"
+    ],
+    "symbols": [
+      {
+        "symbol": "G",
+        "stack": {
+          "key": "tile.glass",
+          "amount": 1,
+          "meta": 0
+        }
+      },
+      {
+        "symbol": "Q",
+        "stack": {
+          "key": "item.quartz",
+          "amount": 1,
+          "meta": 0
+        }
+      },
+      {
+        "symbol": "S",
+        "stack": {
+          "key": "tile.slab.planks.oak",
+          "amount": 1,
+          "meta": 0
+        }
+      }
+    ],
+    "result": {
+      "key": "tile.simpletech.lightsensor",
+      "amount": 1,
+      "meta": 0
+    },
+    "consumeContainers": true
+  },
+  {
+    "name": "simpletech:workbench/allocator",
+    "type": "minecraft:crafting/shaped",
+    "pattern": [
+      "CRC",
+      "CGC",
+      "CRC"
+    ],
+    "symbols": [
+      {
+        "symbol": "C",
+        "stack": {
+          "key": "tile.cobble.stone",
+          "amount": 1,
+          "meta": 0
+        }
+      },
+      {
+        "symbol": "R",
+        "stack": {
+          "key": "item.dust.redstone",
+          "amount": 1,
+          "meta": 0
+        }
+      },
+      {
+        "symbol": "G",
+        "stack": {
+          "key": "item.ingot.gold",
+          "amount": 1,
+          "meta": 0
+        }
+      }
+    ],
+    "result": {
+      "key": "tile.simpletech.allocator",
+      "amount": 1,
+      "meta": 0
+    },
+    "consumeContainers": true
+  },
+  {
+    "name": "simpletech:workbench/jump_pad",
+    "type": "minecraft:crafting/shapeless",
+    "inputs": [
+      {
+        "stack": {
+          "key": "item.slimeball",
+          "amount": 1,
+          "meta": 0
+        }
+      },
+      {
+        "stack": {
+          "key": "tile.slab.planks.oak",
+          "amount": 1,
+          "meta": 0
+        }
+      }
+    ],
+    "result": {
+      "key": "tile.simpletech.jumppad",
+      "amount": 1,
+      "meta": 0
+    }
+  },
+  {
+    "name": "simpletech:workbench/trapped_chest",
+    "type": "minecraft:crafting/shapeless",
+    "inputs": [
+      {
+        "stack": {
+          "key": "tile.chest.planks.oak",
+          "amount": 1,
+          "meta": 0
+        }
+      },
+      {
+        "stack": {
+          "key": "item.dust.redstone",
+          "amount": 1,
+          "meta": 0
+        }
+      }
+    ],
+    "result": {
+      "key": "tile.simpletech.chest.trapped",
+      "amount": 1,
+      "meta": 0
+    }
+  }
+]

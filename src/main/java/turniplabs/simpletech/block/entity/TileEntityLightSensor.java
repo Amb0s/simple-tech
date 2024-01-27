@@ -7,7 +7,7 @@ import turniplabs.simpletech.block.BlockLightSensor;
 
 public class TileEntityLightSensor extends TileEntity {
     @Override
-    public void updateEntity() {
+    public void tick() {
         // If the world object is valid...
         if (worldObj != null && !worldObj.isClientSide) {
             Block block = getBlockType();
@@ -16,22 +16,22 @@ public class TileEntityLightSensor extends TileEntity {
                 BlockLightSensor lightSensor = ((BlockLightSensor) block);
                 boolean isDay = worldObj.isDaytime();
                 boolean isPowered = SimpleTech.getRedstoneFromMetadata(
-                        worldObj.getBlockMetadata(xCoord, yCoord, zCoord),
+                        worldObj.getBlockMetadata(x, y, z),
                         BlockLightSensor.redstoneOffset) > 0;
-                boolean isInverted = lightSensor.isInverted(worldObj, xCoord, yCoord, zCoord);
+                boolean isInverted = lightSensor.isInverted(worldObj, x, y, z);
                 if (isInverted) {
                     // Daytime mode.
                     if (isDay && !isPowered)
                         // Sends redstone value.
-                        lightSensor.updateSensor(worldObj, xCoord, yCoord, zCoord, true);
+                        lightSensor.updateSensor(worldObj, x, y, z, true);
                     if (!isDay && isPowered)
-                        lightSensor.updateSensor(worldObj, xCoord, yCoord, zCoord, false);
+                        lightSensor.updateSensor(worldObj, x, y, z, false);
                 } else {
                     // Nighttime mode.
                     if (isDay && isPowered)
-                        lightSensor.updateSensor(worldObj, xCoord, yCoord, zCoord, false);
+                        lightSensor.updateSensor(worldObj, x, y, z, false);
                     if (!isDay && !isPowered)
-                        lightSensor.updateSensor(worldObj, xCoord, yCoord, zCoord, true);
+                        lightSensor.updateSensor(worldObj, x, y, z, true);
                 }
             }
         }

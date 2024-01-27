@@ -65,10 +65,13 @@ public class TileEntityAllocator extends TileEntity implements IInventory {
 
 	@Override
 	public boolean canInteractWith(EntityPlayer entityPlayer) {
-		return this.worldObj.getBlockTileEntity(this.xCoord, this.yCoord, this.zCoord) == this &&
-				entityPlayer.distanceToSqr((double) this.xCoord + 0.5D, (double) this.yCoord + 0.5D,
-				(double) this.zCoord + 0.5D) <= 64.0D;
+		return this.worldObj.getBlockTileEntity(this.x, this.y, this.z) == this &&
+				entityPlayer.distanceToSqr((double) this.x + 0.5D, (double) this.y + 0.5D,
+				(double) this.z + 0.5D) <= 64.0D;
 	}
+
+	@Override
+	public void sortInventory() {}
 
 	@Override
 	public void readFromNBT(CompoundTag nbttagcompound) {

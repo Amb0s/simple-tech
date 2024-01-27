@@ -22,10 +22,10 @@ public class TileEntityFan extends TileEntity {
     }
 
     @Override
-    public void updateEntity() {
-        if (worldObj.isBlockIndirectlyGettingPowered(xCoord, yCoord, zCoord) ||
-                worldObj.isBlockIndirectlyGettingPowered(xCoord, yCoord + 1, zCoord)) {
-            this.blow(worldObj, xCoord, yCoord, zCoord);
+    public void tick() {
+        if (worldObj.isBlockIndirectlyGettingPowered(x, y, z) ||
+                worldObj.isBlockIndirectlyGettingPowered(x, y + 1, z)) {
+            this.blow(worldObj, x, y, z);
         }
     }
 
