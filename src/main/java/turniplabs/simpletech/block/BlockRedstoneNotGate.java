@@ -92,11 +92,23 @@ public class BlockRedstoneNotGate extends Block {
 
     @Override
     public boolean isPoweringTo(WorldSource blockAccess, int x, int y, int z, int side) {
-        if (!this.isPowered && side != 5) {
-            return true;
+        int direction = blockAccess.getBlockMetadata(x, y, z) & 3;
+        if (!this.isPowered) {
+            if (direction == 1 && side == 5) {
+                return false;
+            } else if (direction == 0 && side == 2) {
+                return false;
+            } else if (direction == 2 && side == 3) {
+                return false;
+            } else if (direction == 3 && side == 4) {
+                return false;
+            } else {
+                return true;
+            }
         } else {
-            int direction = blockAccess.getBlockMetadata(x, y, z) & 3;
             if (direction == 0 && side == 3) {
+                return false;
+            } else if (direction == 0 && side == 2) {
                 return false;
             } else if (direction == 1 && side == 4) {
                 return false;
@@ -104,8 +116,14 @@ public class BlockRedstoneNotGate extends Block {
                 return false;
             } else if (direction == 2 && side == 2) {
                 return false;
+            } else if (direction == 2 && side == 3) {
+                return false;
+            } else if (direction == 3 && side == 4) {
+                return false;
+            } else if (direction == 3 && side == 5) {
+                return false;
             } else {
-                return !(direction == 3 && side == 5);
+                return false;
             }
         }
     }
