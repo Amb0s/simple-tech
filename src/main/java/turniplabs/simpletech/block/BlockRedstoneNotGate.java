@@ -72,9 +72,9 @@ public class BlockRedstoneNotGate extends Block {
     @Override
     public int getBlockTextureFromSideAndMetadata(Side side, int j) {
         if (side == Side.BOTTOM) {
-            return this.atlasIndices[Side.TOP.getId()]; // Defaults to top/bottom texture.
+            return !this.isPowered ? texCoordToIndex(3, 7) : texCoordToIndex(3, 6); // Defaults to top/bottom texture.
          } else if (side == Side.TOP) {
-            return this.atlasIndices[Side.TOP.getId()]; // Defaults to top/bottom texture.
+            return !this.isPowered ? texCoordToIndex(3, 8) : texCoordToIndex(3, 9); // Defaults to top/bottom texture.
          } else {
             return texCoordToIndex(5, 0);
          }
@@ -92,7 +92,7 @@ public class BlockRedstoneNotGate extends Block {
 
     @Override
     public boolean isPoweringTo(WorldSource blockAccess, int x, int y, int z, int side) {
-        if (!this.isPowered) {
+        if (!this.isPowered && side != 5) {
             return true;
         } else {
             int direction = blockAccess.getBlockMetadata(x, y, z) & 3;
@@ -100,10 +100,12 @@ public class BlockRedstoneNotGate extends Block {
                 return false;
             } else if (direction == 1 && side == 4) {
                 return false;
+            } else if (direction == 1 && side == 5) {
+                return false;
             } else if (direction == 2 && side == 2) {
                 return false;
             } else {
-                return false;
+                return !(direction == 3 && side == 5);
             }
         }
     }
