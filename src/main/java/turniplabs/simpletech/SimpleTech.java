@@ -4,12 +4,15 @@ import net.minecraft.client.sound.block.BlockSounds;
 import net.minecraft.core.block.Block;
 import net.minecraft.core.block.material.Material;
 import net.minecraft.core.block.tag.BlockTags;
+import net.minecraft.core.item.Item;
+import net.minecraft.core.item.ItemPlaceable;
 import net.minecraft.core.util.helper.Direction;
 import net.minecraft.core.world.World;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import turniplabs.halplibe.helper.BlockBuilder;
 import turniplabs.halplibe.helper.EntityHelper;
+import turniplabs.halplibe.helper.ItemHelper;
 import turniplabs.halplibe.util.GameStartEntrypoint;
 import turniplabs.halplibe.util.TomlConfigHandler;
 import turniplabs.halplibe.util.toml.Toml;
@@ -37,6 +40,7 @@ public class SimpleTech implements GameStartEntrypoint {
     public static final int ALLOCATOR_GUI_ID;
     public static final int NOT_GATE_IDLE_ID;
     public static final int NOT_GATE_ACTIVE_ID;
+    public static final int NOT_GATE_ID;
     static {
         Toml configToml = new Toml();
         configToml.addCategory("BlockIDs");
@@ -48,6 +52,8 @@ public class SimpleTech implements GameStartEntrypoint {
         configToml.addEntry("BlockIDs.ALLOCATOR_ID", 3794);
         configToml.addEntry("BlockIDs.NOT_GATE_IDLE_ID", 3795);
         configToml.addEntry("BlockIDs.NOT_GATE_ACTIVE_ID", 3796);
+        configToml.addCategory("ItemIDs");
+        configToml.addEntry("ItemIDs.NOT_GATE_ID", 28890);
         configToml.addCategory("Settings");
         configToml.addEntry("Settings.FAN_RANGE", 4);
         configToml.addCategory("GUI");
@@ -64,6 +70,7 @@ public class SimpleTech implements GameStartEntrypoint {
         ALLOCATOR_GUI_ID = config.getInt("GUI.ALLOCATOR_GUI_ID");
         NOT_GATE_IDLE_ID = config.getInt("BlockIDs.NOT_GATE_IDLE_ID");
         NOT_GATE_ACTIVE_ID = config.getInt("BlockIDs.NOT_GATE_ACTIVE_ID");
+        NOT_GATE_ID = config.getInt("ItemIDs.NOT_GATE_ID");
     }
 
 
@@ -90,7 +97,7 @@ public class SimpleTech implements GameStartEntrypoint {
             .setResistance(0.0f)
             .setLuminance(0)
             .setBlockSound(BlockSounds.STONE)
-            .setTags(BlockTags.MINEABLE_BY_AXE);
+            .setTags(BlockTags.MINEABLE_BY_AXE, BlockTags.BROKEN_BY_FLUIDS, BlockTags.NOT_IN_CREATIVE_MENU, BlockTags.PREVENT_MOB_SPAWNS);
 
     // Blocks
     public static final Block unpoweredFan = fanBuilder
@@ -127,7 +134,7 @@ public class SimpleTech implements GameStartEntrypoint {
             .setWestTexture("gate_top.png")
             .setSouthTexture("gate_top.png")
             .setBottomTexture("gate_top.png")
-            .build(new BlockRedstoneNotGate("not.gate.idle", NOT_GATE_IDLE_ID, Material.stone, false));
+            .build(new BlockRedstoneNotGate("not.gate.idle", NOT_GATE_IDLE_ID, Material.decoration, false));
     public static final Block notGateActive = gateBlockBuilder
             .setTopTexture("gate_top_powered.png")
             .setNorthTexture("gate_top_powered.png")
@@ -135,7 +142,10 @@ public class SimpleTech implements GameStartEntrypoint {
             .setWestTexture("gate_top_powered.png")
             .setSouthTexture("gate_top_powered.png")
             .setBottomTexture("gate_top_powered.png")
-            .build(new BlockRedstoneNotGate("not.gate.active", NOT_GATE_ACTIVE_ID, Material.stone, true));
+            .build(new BlockRedstoneNotGate("not.gate.active", NOT_GATE_ACTIVE_ID, Material.decoration, true));
+
+    // Items
+    public static final Item notGate = ItemHelper.createItem(MOD_ID, new ItemPlaceable("not.gate", NOT_GATE_ID, notGateIdle), "not.gate", "not_logicate.png");
 
     @Override
     public void beforeGameStart() {
@@ -143,7 +153,7 @@ public class SimpleTech implements GameStartEntrypoint {
         EntityHelper.Core.createTileEntity(TileEntityFan.class, "Fan");
         EntityHelper.Core.createTileEntity(TileEntityLightSensor.class, "Light Sensor");
         EntityHelper.Core.createTileEntity(TileEntityAllocator.class, "Allocator");
-        LOGGER.info("Simple Tech initialized.");
+        LOGGER.info("Simple Tech initialized");
     }
 
     @Override
