@@ -10,3 +10,5 @@ tile.simpletech.lightsensor.name=Light Sensor
 tile.simpletech.lightsensor.desc=...and there was light
 tile.simpletech.allocator.name=Allocator
 tile.simpletech.allocator.desc=WIP
+item.simpletech.not.gate.name=Not Gate
+item.simpletech.not.gate.desc=WIP

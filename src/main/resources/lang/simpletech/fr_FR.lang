@@ -10,3 +10,5 @@ tile.simpletech.lightsensor.name=Détecteur de lumière
 tile.simpletech.lightsensor.desc=... et la lumière fut
 tile.simpletech.allocator.name=Allocateur
 tile.simpletech.allocator.desc=WIP
+item.simpletech.not.gate.name=Porte Non
+item.simpletech.not.gate.desc=WIP

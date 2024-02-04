@@ -171,5 +171,46 @@
       "amount": 1,
       "meta": 0
     }
+  },
+  {
+    "name": "simpletech:workbench/not_gate",
+    "type": "minecraft:crafting/shaped",
+    "pattern": [
+      "   ",
+      "RRT",
+      "SSS"
+    ],
+    "symbols": [
+      {
+        "symbol": "T",
+        "stack": {
+          "key": "tile.torch.redstone.active",
+          "amount": 1,
+          "meta": 0
+        }
+      },
+      {
+        "symbol": "S",
+        "stack": {
+          "key": "tile.stone",
+          "amount": 1,
+          "meta": 0
+        }
+      },
+      {
+        "symbol": "R",
+        "stack": {
+          "key": "item.dust.redstone",
+          "amount": 1,
+          "meta": 0
+        }
+      }
+    ],
+    "result": {
+      "key": "item.simpletech.not.gate",
+      "amount": 1,
+      "meta": 0
+    },
+    "consumeContainers": true
   }
 ]
