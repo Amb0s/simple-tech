@@ -6,6 +6,7 @@ import net.minecraft.core.block.material.Material;
 import net.minecraft.core.entity.EntityLiving;
 import net.minecraft.core.enums.EnumDropCause;
 import net.minecraft.core.item.ItemStack;
+import net.minecraft.core.util.helper.Direction;
 import net.minecraft.core.util.helper.Side;
 import net.minecraft.core.world.World;
 import net.minecraft.core.world.WorldSource;
@@ -60,29 +61,30 @@ public class BlockRedstoneNotGate extends Block {
 
     @Override
     public void updateTick(World world, int x, int y, int z, Random rand) {
-        int l = world.getBlockMetadata(x, y, z);
-        boolean isPowering = this.unknown(world, x, y, z, l);
-        if (this.isPowered && !isPowering) {
-            world.setBlockAndMetadataWithNotify(x, y, z, SimpleTech.notGateIdle.id, l);
+        int metadata = world.getBlockMetadata(x, y, z);
+        boolean shouldPower = this.shouldPowerAdjacentBlocks(world, x, y, z, metadata);
+        if (this.isPowered && !shouldPower) {
+            world.setBlockAndMetadataWithNotify(x, y, z, SimpleTech.notGateIdle.id, metadata);
         } else if (!this.isPowered) {
-            world.setBlockAndMetadataWithNotify(x, y, z, SimpleTech.notGateActive.id, l);
+            world.setBlockAndMetadataWithNotify(x, y, z, SimpleTech.notGateActive.id, metadata);
         }
     }
 
     @Override
     public int getBlockTextureFromSideAndMetadata(Side side, int j) {
         if (side == Side.BOTTOM) {
-            return !this.isPowered ? texCoordToIndex(3, 7) : texCoordToIndex(3, 6); // Defaults to top/bottom texture.
-         } else if (side == Side.TOP) {
-            return !this.isPowered ? texCoordToIndex(3, 8) : texCoordToIndex(3, 9); // Defaults to top/bottom texture.
-         } else {
+            return !this.isPowered ? texCoordToIndex(3, 7) : texCoordToIndex(3, 6);
+        } else if (side == Side.TOP) {
+            return !this.isPowered ? texCoordToIndex(3, 8) : texCoordToIndex(3, 9);
+        } else {
             return texCoordToIndex(5, 0);
-         }
+        }
     }
 
     @Override
     public boolean shouldSideBeRendered(WorldSource blockAccess, int x, int y, int z, int side) {
-        return side != 0 && side != 1; // Don't render bottom and top textures to avoid z-fighting with modified renderer.
+        // Don't render bottom and top textures to avoid z-fighting with modified renderer.
+        return side != Side.BOTTOM.getId() && side != Side.TOP.getId();
     }
 
     @Override
@@ -94,37 +96,19 @@ public class BlockRedstoneNotGate extends Block {
     public boolean isPoweringTo(WorldSource blockAccess, int x, int y, int z, int side) {
         int direction = blockAccess.getBlockMetadata(x, y, z) & 3;
         if (!this.isPowered) {
-            if (direction == 1 && side == 5) {
+            if (direction == Direction.EAST.getHorizontalIndex() && side == Side.EAST.getId()) {
                 return false;
-            } else if (direction == 0 && side == 2) {
+            } else if (direction == Direction.NORTH.getHorizontalIndex() && side == Side.NORTH.getId()) {
                 return false;
-            } else if (direction == 2 && side == 3) {
+            } else if (direction == Direction.SOUTH.getHorizontalIndex() && side == Side.SOUTH.getId()) {
                 return false;
-            } else if (direction == 3 && side == 4) {
+            } else if (direction == Direction.WEST.getHorizontalIndex() && side == Side.WEST.getId()) {
                 return false;
             } else {
                 return true;
             }
         } else {
-            if (direction == 0 && side == 3) {
-                return false;
-            } else if (direction == 0 && side == 2) {
-                return false;
-            } else if (direction == 1 && side == 4) {
-                return false;
-            } else if (direction == 1 && side == 5) {
-                return false;
-            } else if (direction == 2 && side == 2) {
-                return false;
-            } else if (direction == 2 && side == 3) {
-                return false;
-            } else if (direction == 3 && side == 4) {
-                return false;
-            } else if (direction == 3 && side == 5) {
-                return false;
-            } else {
-                return false;
-            }
+            return false;
         }
     }
 
@@ -134,17 +118,42 @@ public class BlockRedstoneNotGate extends Block {
             this.dropBlockWithCause(world, EnumDropCause.WORLD, x, y, z, world.getBlockMetadata(x, y, z), null);
             world.setBlockWithNotify(x, y, z, 0);
         } else {
-            int i1 = world.getBlockMetadata(x, y, z);
-            boolean flag = this.unknown(world, x, y, z, i1);
-            if (this.isPowered && !flag) {
+            int metadata = world.getBlockMetadata(x, y, z);
+            boolean shouldPower = this.shouldPowerAdjacentBlocks(world, x, y, z, metadata);
+            if (this.isPowered && !shouldPower) {
                 world.scheduleBlockUpdate(x, y, z, this.id, 1);
-            } else if (!this.isPowered && flag) {
+            } else if (!this.isPowered && shouldPower) {
                 world.scheduleBlockUpdate(x, y, z, this.id, 1);
             }
         }
     }
 
-    private boolean unknown(World world, int i, int j, int k, int metadata) {
+    @Override
+    public boolean canProvidePower() {
+        return false;
+    }
+
+    @Override
+    public void onBlockPlaced(World world, int x, int y, int z, Side side, EntityLiving entity, double sideHeight) {
+        int metadata = entity.getHorizontalPlacementDirection(side).getHorizontalIndex();
+        world.setBlockMetadataWithNotify(x, y, z, metadata);
+        boolean shouldPower = this.shouldPowerAdjacentBlocks(world, x, y, z, metadata);
+        if (shouldPower) {
+            world.scheduleBlockUpdate(x, y, z, this.id, 1);
+        }
+    }
+
+    @Override
+    public void onBlockAdded(World world, int i, int j, int k) {
+        world.notifyBlocksOfNeighborChange(i + 1, j, k, this.id);
+        world.notifyBlocksOfNeighborChange(i - 1, j, k, this.id);
+        world.notifyBlocksOfNeighborChange(i, j, k + 1, this.id);
+        world.notifyBlocksOfNeighborChange(i, j, k - 1, this.id);
+        world.notifyBlocksOfNeighborChange(i, j - 1, k, this.id);
+        world.notifyBlocksOfNeighborChange(i, j + 1, k, this.id);
+    }
+
+    private boolean shouldPowerAdjacentBlocks(World world, int i, int j, int k, int metadata) {
         int direction = metadata & 3;
         switch (direction) {
             case 0:
@@ -166,30 +175,5 @@ public class BlockRedstoneNotGate extends Block {
             default:
                 return false;
         }
-    }
-
-    @Override
-    public boolean canProvidePower() {
-        return false;
-    }
-
-    @Override
-    public void onBlockPlaced(World world, int x, int y, int z, Side side, EntityLiving entity, double sideHeight) {
-        int l = entity.getHorizontalPlacementDirection(side).getHorizontalIndex();
-        world.setBlockMetadataWithNotify(x, y, z, l);
-        boolean flag = this.unknown(world, x, y, z, l);
-        if (flag) {
-            world.scheduleBlockUpdate(x, y, z, this.id, 1);
-        }
-    }
-
-    @Override
-    public void onBlockAdded(World world, int i, int j, int k) {
-        world.notifyBlocksOfNeighborChange(i + 1, j, k, this.id);
-        world.notifyBlocksOfNeighborChange(i - 1, j, k, this.id);
-        world.notifyBlocksOfNeighborChange(i, j, k + 1, this.id);
-        world.notifyBlocksOfNeighborChange(i, j, k - 1, this.id);
-        world.notifyBlocksOfNeighborChange(i, j - 1, k, this.id);
-        world.notifyBlocksOfNeighborChange(i, j + 1, k, this.id);
     }
 }
