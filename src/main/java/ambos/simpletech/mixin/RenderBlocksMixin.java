@@ -1,4 +1,4 @@
-package turniplabs.simpletech.mixin;
+package ambos.simpletech.mixin;
 
 import net.minecraft.client.render.RenderBlocks;
 import net.minecraft.client.render.Tessellator;
@@ -14,9 +14,9 @@ import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
 
-import turniplabs.simpletech.block.BlockAllocator;
-import turniplabs.simpletech.block.BlockFan;
-import turniplabs.simpletech.block.BlockRedstoneNotGate;
+import ambos.simpletech.block.BlockAllocator;
+import ambos.simpletech.block.BlockFan;
+import ambos.simpletech.block.BlockRedstoneNotGate;
 
 @Mixin(value = RenderBlocks.class, remap = false)
 final class RenderBlocksMixin {

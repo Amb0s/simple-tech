@@ -1,4 +1,4 @@
-package turniplabs.simpletech.block;
+package ambos.simpletech.block;
 
 import net.minecraft.core.block.Block;
 import net.minecraft.core.block.material.Material;

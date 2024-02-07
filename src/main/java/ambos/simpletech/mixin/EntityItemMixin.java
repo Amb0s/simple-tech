@@ -1,4 +1,4 @@
-package turniplabs.simpletech.mixin;
+package ambos.simpletech.mixin;
 
 import net.minecraft.core.entity.EntityItem;
 import org.spongepowered.asm.mixin.Mixin;

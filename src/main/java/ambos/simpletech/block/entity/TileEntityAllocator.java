@@ -1,4 +1,4 @@
-package turniplabs.simpletech.block.entity;
+package ambos.simpletech.block.entity;
 
 import com.mojang.nbt.CompoundTag;
 import com.mojang.nbt.ListTag;

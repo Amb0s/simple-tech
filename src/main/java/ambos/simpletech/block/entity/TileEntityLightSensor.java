@@ -1,9 +1,9 @@
-package turniplabs.simpletech.block.entity;
+package ambos.simpletech.block.entity;
 
+import ambos.simpletech.SimpleTech;
+import ambos.simpletech.block.BlockLightSensor;
 import net.minecraft.core.block.Block;
 import net.minecraft.core.block.entity.TileEntity;
-import turniplabs.simpletech.SimpleTech;
-import turniplabs.simpletech.block.BlockLightSensor;
 
 public class TileEntityLightSensor extends TileEntity {
     @Override

@@ -1,13 +1,14 @@
-package turniplabs.simpletech.player.inventory;
+package ambos.simpletech.player.inventory;
 
 import net.minecraft.core.InventoryAction;
 import net.minecraft.core.entity.player.EntityPlayer;
 import net.minecraft.core.player.inventory.Container;
 import net.minecraft.core.player.inventory.IInventory;
 import net.minecraft.core.player.inventory.slot.Slot;
-import turniplabs.simpletech.block.entity.TileEntityAllocator;
 
 import java.util.List;
+
+import ambos.simpletech.block.entity.TileEntityAllocator;
 
 public class ContainerAllocator extends Container {
 	private final TileEntityAllocator allocator;

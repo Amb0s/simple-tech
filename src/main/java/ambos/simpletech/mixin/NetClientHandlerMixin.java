@@ -1,4 +1,4 @@
-package turniplabs.simpletech.mixin;
+package ambos.simpletech.mixin;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.net.handler.NetClientHandler;
@@ -9,9 +9,10 @@ import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-import turniplabs.simpletech.IPlayerDisplayer;
-import turniplabs.simpletech.SimpleTech;
-import turniplabs.simpletech.block.entity.TileEntityAllocator;
+
+import ambos.simpletech.IPlayerDisplayer;
+import ambos.simpletech.SimpleTech;
+import ambos.simpletech.block.entity.TileEntityAllocator;
 
 @Mixin(value = NetClientHandler.class, remap = false)
 public class NetClientHandlerMixin {

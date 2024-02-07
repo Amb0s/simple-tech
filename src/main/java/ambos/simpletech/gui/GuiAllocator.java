@@ -1,10 +1,11 @@
-package turniplabs.simpletech.gui;
+package ambos.simpletech.gui;
 
 import net.minecraft.client.gui.GuiContainer;
 import net.minecraft.core.player.inventory.InventoryPlayer;
 import org.lwjgl.opengl.GL11;
-import turniplabs.simpletech.block.entity.TileEntityAllocator;
-import turniplabs.simpletech.player.inventory.ContainerAllocator;
+
+import ambos.simpletech.block.entity.TileEntityAllocator;
+import ambos.simpletech.player.inventory.ContainerAllocator;
 
 public class GuiAllocator extends GuiContainer {
 	private final TileEntityAllocator allocatorInv;

@@ -1,4 +1,4 @@
-package turniplabs.simpletech.mixin;
+package ambos.simpletech.mixin;
 
 import net.minecraft.core.entity.player.EntityPlayer;
 import net.minecraft.core.net.packet.Packet100OpenWindow;
@@ -7,10 +7,11 @@ import net.minecraft.server.entity.player.EntityPlayerMP;
 import net.minecraft.server.net.handler.NetServerHandler;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
-import turniplabs.simpletech.IPlayerDisplayer;
-import turniplabs.simpletech.SimpleTech;
-import turniplabs.simpletech.block.entity.TileEntityAllocator;
-import turniplabs.simpletech.player.inventory.ContainerAllocator;
+
+import ambos.simpletech.IPlayerDisplayer;
+import ambos.simpletech.SimpleTech;
+import ambos.simpletech.block.entity.TileEntityAllocator;
+import ambos.simpletech.player.inventory.ContainerAllocator;
 
 @Mixin(value = EntityPlayerMP.class, remap = false)
 public abstract class EntityPlayerMPMixin extends EntityPlayer implements IPlayerDisplayer {

@@ -1,4 +1,4 @@
-package turniplabs.simpletech.block;
+package ambos.simpletech.block;
 
 import net.minecraft.core.block.BlockTileEntity;
 import net.minecraft.core.block.entity.TileEntity;
@@ -9,10 +9,11 @@ import net.minecraft.core.item.ItemStack;
 import net.minecraft.core.util.helper.Direction;
 import net.minecraft.core.util.helper.Side;
 import net.minecraft.core.world.World;
-import turniplabs.simpletech.SimpleTech;
-import turniplabs.simpletech.block.entity.TileEntityFan;
 
 import java.util.Random;
+
+import ambos.simpletech.SimpleTech;
+import ambos.simpletech.block.entity.TileEntityFan;
 
 public class BlockFan extends BlockTileEntity {
    private final boolean isPowered;

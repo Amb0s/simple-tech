@@ -1,4 +1,4 @@
-package turniplabs.simpletech.block;
+package ambos.simpletech.block;
 
 import net.minecraft.core.block.BlockChest;
 import net.minecraft.core.block.material.Material;
@@ -6,9 +6,10 @@ import net.minecraft.core.entity.player.EntityPlayer;
 import net.minecraft.core.sound.SoundType;
 import net.minecraft.core.world.World;
 import net.minecraft.core.world.WorldSource;
-import turniplabs.simpletech.SimpleTech;
 
 import java.util.Random;
+
+import ambos.simpletech.SimpleTech;
 
 public class BlockTrappedChest extends BlockChest {
     public static final int redstoneOffset = 4;

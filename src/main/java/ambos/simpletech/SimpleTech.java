@@ -1,4 +1,4 @@
-package turniplabs.simpletech;
+package ambos.simpletech;
 
 import net.minecraft.client.sound.block.BlockSounds;
 import net.minecraft.core.block.Block;
@@ -10,21 +10,22 @@ import net.minecraft.core.util.helper.Direction;
 import net.minecraft.core.world.World;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import ambos.simpletech.block.BlockAllocator;
+import ambos.simpletech.block.BlockFan;
+import ambos.simpletech.block.BlockJumpPad;
+import ambos.simpletech.block.BlockLightSensor;
+import ambos.simpletech.block.BlockRedstoneNotGate;
+import ambos.simpletech.block.BlockTrappedChest;
+import ambos.simpletech.block.entity.TileEntityAllocator;
+import ambos.simpletech.block.entity.TileEntityFan;
+import ambos.simpletech.block.entity.TileEntityLightSensor;
 import turniplabs.halplibe.helper.BlockBuilder;
 import turniplabs.halplibe.helper.EntityHelper;
 import turniplabs.halplibe.helper.ItemHelper;
 import turniplabs.halplibe.util.GameStartEntrypoint;
 import turniplabs.halplibe.util.TomlConfigHandler;
 import turniplabs.halplibe.util.toml.Toml;
-import turniplabs.simpletech.block.BlockAllocator;
-import turniplabs.simpletech.block.BlockFan;
-import turniplabs.simpletech.block.BlockJumpPad;
-import turniplabs.simpletech.block.BlockLightSensor;
-import turniplabs.simpletech.block.BlockRedstoneNotGate;
-import turniplabs.simpletech.block.BlockTrappedChest;
-import turniplabs.simpletech.block.entity.TileEntityAllocator;
-import turniplabs.simpletech.block.entity.TileEntityFan;
-import turniplabs.simpletech.block.entity.TileEntityLightSensor;
 
 public class SimpleTech implements GameStartEntrypoint {
     public static final String MOD_ID = "simpletech";

@@ -1,4 +1,4 @@
-package turniplabs.simpletech.block;
+package ambos.simpletech.block;
 
 import net.minecraft.core.block.Block;
 import net.minecraft.core.block.entity.TileEntity;
@@ -10,9 +10,10 @@ import net.minecraft.core.util.helper.Direction;
 import net.minecraft.core.util.helper.Side;
 import net.minecraft.core.world.World;
 import net.minecraft.core.world.WorldSource;
-import turniplabs.simpletech.SimpleTech;
 
 import java.util.Random;
+
+import ambos.simpletech.SimpleTech;
 
 public class BlockRedstoneNotGate extends Block {
     private final boolean isPowered;

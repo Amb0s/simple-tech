@@ -1,13 +1,13 @@
-package turniplabs.simpletech.block;
+package ambos.simpletech.block;
 
+import ambos.simpletech.SimpleTech;
+import ambos.simpletech.block.entity.TileEntityLightSensor;
 import net.minecraft.core.block.BlockTileEntity;
 import net.minecraft.core.block.entity.TileEntity;
 import net.minecraft.core.block.material.Material;
 import net.minecraft.core.entity.player.EntityPlayer;
 import net.minecraft.core.world.World;
 import net.minecraft.core.world.WorldSource;
-import turniplabs.simpletech.SimpleTech;
-import turniplabs.simpletech.block.entity.TileEntityLightSensor;
 
 public class BlockLightSensor extends BlockTileEntity {
     public static final int invertedOffset = 0;

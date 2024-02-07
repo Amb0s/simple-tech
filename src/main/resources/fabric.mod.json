@@ -8,19 +8,19 @@
     "Ambos"
   ],
   "contact": {
-    "homepage": "https://github.com/Turnip-Labs",
-    "sources": "https://github.com/Turnip-Labs/simple-tech",
-    "issues": "https://github.com/Turnip-Labs/simple-tech/issues"
+    "homepage": "https://memoryshards.xyz",
+    "sources": "https://github.com/ambos/simple-tech",
+    "issues": "https://github.com/ambos/simple-tech/issues"
   },
   "license": "CC-BY-NC-SA-3.0",
   "icon": "icon.png",
   "environment": "*",
   "entrypoints": {
     "beforeGameStart": [
-        "turniplabs.simpletech.SimpleTech"
+        "ambos.simpletech.SimpleTech"
     ],
     "recipesReady": [
-      "turniplabs.simpletech.SimpleTechRecipes"
+      "ambos.simpletech.SimpleTechRecipes"
     ]
   },
   "mixins": [

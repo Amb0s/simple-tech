@@ -1,4 +1,4 @@
-package turniplabs.simpletech.block;
+package ambos.simpletech.block;
 
 import net.minecraft.core.block.Block;
 import net.minecraft.core.block.BlockTileEntity;
@@ -19,12 +19,13 @@ import net.minecraft.core.util.helper.Direction;
 import net.minecraft.core.util.helper.Side;
 import net.minecraft.core.util.phys.AABB;
 import net.minecraft.core.world.World;
-import turniplabs.simpletech.IPlayerDisplayer;
-import turniplabs.simpletech.SimpleTech;
-import turniplabs.simpletech.block.entity.TileEntityAllocator;
 
 import java.util.List;
 import java.util.Random;
+
+import ambos.simpletech.IPlayerDisplayer;
+import ambos.simpletech.SimpleTech;
+import ambos.simpletech.block.entity.TileEntityAllocator;
 
 public class BlockAllocator extends BlockTileEntity {
 	private final boolean allowFiltering;

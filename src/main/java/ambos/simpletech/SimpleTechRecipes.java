@@ -1,4 +1,4 @@
-package turniplabs.simpletech;
+package ambos.simpletech;
 
 import net.minecraft.core.block.Block;
 import net.minecraft.core.data.DataLoader;
