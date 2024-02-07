@@ -51,8 +51,9 @@ public class BlockRedstoneNotGate extends Block {
     }
 
     @Override
-    public ItemStack[] getBreakResult(World world, EnumDropCause dropCause, int x, int y, int z, int meta, TileEntity tileEntity) {
-        return new ItemStack[]{new ItemStack(SimpleTech.notGate)};
+    public ItemStack[] getBreakResult(World world, EnumDropCause dropCause, int x, int y, int z, int meta,
+            TileEntity tileEntity) {
+        return new ItemStack[] { new ItemStack(SimpleTech.notGate) };
     }
 
     @Override
@@ -84,7 +85,8 @@ public class BlockRedstoneNotGate extends Block {
 
     @Override
     public boolean shouldSideBeRendered(WorldSource blockAccess, int x, int y, int z, int side) {
-        // Don't render bottom and top textures to avoid z-fighting with modified renderer.
+        // Don't render bottom and top textures to avoid z-fighting with modified
+        // renderer.
         return side != Side.BOTTOM.getId() && side != Side.TOP.getId();
     }
 

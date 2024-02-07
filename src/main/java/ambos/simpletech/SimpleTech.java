@@ -74,7 +74,6 @@ public class SimpleTech implements GameStartEntrypoint {
         NOT_GATE_ID = config.getInt("ItemIDs.NOT_GATE_ID");
     }
 
-
     // Builders
     public static final BlockBuilder stoneBlockBuilder = new BlockBuilder(MOD_ID)
             .setHardness(1.5f)
@@ -98,7 +97,8 @@ public class SimpleTech implements GameStartEntrypoint {
             .setResistance(0.0f)
             .setLuminance(0)
             .setBlockSound(BlockSounds.STONE)
-            .setTags(BlockTags.MINEABLE_BY_AXE, BlockTags.BROKEN_BY_FLUIDS, BlockTags.NOT_IN_CREATIVE_MENU, BlockTags.PREVENT_MOB_SPAWNS);
+            .setTags(BlockTags.MINEABLE_BY_AXE, BlockTags.BROKEN_BY_FLUIDS, BlockTags.NOT_IN_CREATIVE_MENU,
+                    BlockTags.PREVENT_MOB_SPAWNS);
 
     // Blocks
     public static final Block unpoweredFan = fanBuilder
@@ -146,7 +146,8 @@ public class SimpleTech implements GameStartEntrypoint {
             .build(new BlockRedstoneNotGate("not.gate.active", NOT_GATE_ACTIVE_ID, Material.decoration, true));
 
     // Items
-    public static final Item notGate = ItemHelper.createItem(MOD_ID, new ItemPlaceable("not.gate", NOT_GATE_ID, notGateIdle), "not.gate", "not_logicate.png");
+    public static final Item notGate = ItemHelper.createItem(MOD_ID,
+            new ItemPlaceable("not.gate", NOT_GATE_ID, notGateIdle), "not.gate", "not_logicate.png");
 
     @Override
     public void beforeGameStart() {

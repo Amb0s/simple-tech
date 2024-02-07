@@ -59,7 +59,7 @@ public class BlockTrappedChest extends BlockChest {
         this.setState(world, x, y, z, (byte) 1);
 
         world.scheduleBlockUpdate(x, y, z, this.id, this.tickRate());
-        world.playSoundEffect(SoundType.GUI_SOUNDS,x + 0.5, y + 0.5, z + 0.5,
+        world.playSoundEffect(SoundType.GUI_SOUNDS, x + 0.5, y + 0.5, z + 0.5,
                 "random.click", 0.3f, 0.6f);
 
         return super.blockActivated(world, x, y, z, player);

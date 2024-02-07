@@ -49,8 +49,7 @@ public class TileEntityFan extends TileEntity {
             }
 
             List<Entity> entities = world.getEntitiesWithinAABB(Entity.class, AABB.getBoundingBoxFromPool(
-                    px, py, pz, px + 1, py + 1, pz + 1)
-            );
+                    px, py, pz, px + 1, py + 1, pz + 1));
 
             for (Entity entity : entities) {
                 if (entity instanceof EntityItem) {

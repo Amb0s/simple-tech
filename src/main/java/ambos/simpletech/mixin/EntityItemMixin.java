@@ -8,8 +8,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(value = EntityItem.class, remap = false)
 final class EntityItemMixin {
-    @Inject(method = "clumpToNearbyStack", at = @At("HEAD"),
-            require = 0, cancellable = true)
+    @Inject(method = "clumpToNearbyStack", at = @At("HEAD"), require = 0, cancellable = true)
     private void removeItemEntityStacking(CallbackInfo ci) {
         EntityItem currentEntityItem = (EntityItem) ((Object) this);
 

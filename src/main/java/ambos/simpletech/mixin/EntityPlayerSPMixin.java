@@ -13,7 +13,8 @@ import ambos.simpletech.gui.GuiAllocator;
 
 @Mixin(value = EntityPlayerSP.class, remap = false)
 public abstract class EntityPlayerSPMixin extends EntityPlayer implements IPlayerDisplayer {
-    @Shadow protected Minecraft mc;
+    @Shadow
+    protected Minecraft mc;
 
     public EntityPlayerSPMixin(World world) {
         super(world);
@@ -21,7 +22,7 @@ public abstract class EntityPlayerSPMixin extends EntityPlayer implements IPlaye
 
     @Override
     public void simple_tech$displayGUIAllocator(TileEntityAllocator allocator) {
-        if (allocator != null){
+        if (allocator != null) {
             this.mc.displayGuiScreen(new GuiAllocator(inventory, allocator));
         }
     }
