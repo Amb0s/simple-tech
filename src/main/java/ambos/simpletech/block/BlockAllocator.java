@@ -14,7 +14,7 @@ import net.minecraft.core.entity.vehicle.EntityMinecart;
 import net.minecraft.core.item.ItemStack;
 import net.minecraft.core.player.inventory.IInventory;
 import net.minecraft.core.player.inventory.InventoryLargeChest;
-import net.minecraft.core.sound.SoundType;
+import net.minecraft.core.sound.SoundCategory;
 import net.minecraft.core.util.helper.Direction;
 import net.minecraft.core.util.helper.Side;
 import net.minecraft.core.util.phys.AABB;
@@ -33,6 +33,7 @@ public class BlockAllocator extends BlockTileEntity {
 
     public BlockAllocator(String key, int id, Material material, boolean allowFiltering, boolean subItemFiltering) {
         super(key, id, material);
+        this.setTicking(true);
         this.allowFiltering = allowFiltering;
         this.subItemFiltering = subItemFiltering;
     }
@@ -43,7 +44,7 @@ public class BlockAllocator extends BlockTileEntity {
     }
 
     @Override
-    public boolean blockActivated(World world, int x, int y, int z, EntityPlayer player) {
+    public boolean onBlockRightClicked(World world, int x, int y, int z, EntityPlayer player, Side side, double xPlaced, double yPlaced) {
         if (!this.allowFiltering) {
             return false;
         } else if (world.isClientSide) {
@@ -79,31 +80,6 @@ public class BlockAllocator extends BlockTileEntity {
     @Override
     public void onBlockAdded(World world, int x, int y, int z) {
         super.onBlockAdded(world, x, y, z);
-    }
-
-    @Override
-    public int getBlockTextureFromSideAndMetadata(Side side, int meta) {
-        int direction = SimpleTech.get3DDirectionFromMeta(meta);
-
-        if (direction > 5) {
-            return this.atlasIndices[Side.WEST.getId()]; // Defaults to top/bottom texture.
-        } else if (side.getId() == SimpleTech.getOppositeDirectionById(direction)) {
-            if (side.getId() == Side.TOP.getId() || side.getId() == Side.BOTTOM.getId()) {
-                return this.atlasIndices[Side.TOP.getId()]; // Returns back top/bottom texture.
-            }
-            return this.atlasIndices[Side.NORTH.getId()]; // Returns back texture.
-        } else if (side.getId() == direction) {
-            if (side.getId() == Side.TOP.getId() || side.getId() == Side.BOTTOM.getId()) {
-                return this.atlasIndices[Side.BOTTOM.getId()]; // Returns front top/bottom texture.
-            }
-            return this.atlasIndices[Side.SOUTH.getId()]; // Returns front texture.
-        } else {
-            if (side.getId() == Side.TOP.getId() || side.getId() == Side.BOTTOM.getId()) {
-                return this.atlasIndices[Side.WEST.getId()]; // Returns top/bottom texture.
-            } else {
-                return this.atlasIndices[Side.EAST.getId()]; // Returns side texture.
-            }
-        }
     }
 
     @Override
@@ -146,12 +122,13 @@ public class BlockAllocator extends BlockTileEntity {
         int blockID = world.getBlockId(x, y, z);
         boolean isOpaque = Block.translucent[blockID];
 
-        return isOpaque || blockID == Block.glass.id ||
+        return !(isOpaque || blockID == Block.glass.id ||
                 blockID == Block.cactus.id ||
                 blockID == Block.cake.id ||
                 blockID == Block.blockSnow.id ||
                 blockID == Block.mobspawner.id ||
-                blockID == Block.fencePlanksOak.id;
+                blockID == Block.fencePlanksOak.id ||
+                blockID == 0);
     }
 
     private void putItemInContainer(IInventory inventory, ItemStack item, int index) {
@@ -186,7 +163,7 @@ public class BlockAllocator extends BlockTileEntity {
         entityItem.xd += rand.nextGaussian() * (double) 0.0075F * 6.0D;
 
         world.entityJoinedWorld(entityItem);
-        world.playSoundEffect(SoundType.GUI_SOUNDS, x, y, z, "random.click", 1.0f, 1.0f);
+        world.playSoundEffect(null, SoundCategory.GUI_SOUNDS, x, y, z, "random.click", 1.0f, 1.0f);
 
         // Particle rendering.
         for (int i = 0; i < 10; ++i) {
@@ -198,7 +175,7 @@ public class BlockAllocator extends BlockTileEntity {
             double d9 = -0.03D + rand.nextGaussian() * 0.01D;
             double d10 = (double) dz * d4 + rand.nextGaussian() * 0.01D;
 
-            world.spawnParticle("smoke", d5, d6, d7, d8, d9, d10);
+            world.spawnParticle("smoke", d5, d6, d7, d8, d9, d10, 0);
         }
     }
 
@@ -206,10 +183,10 @@ public class BlockAllocator extends BlockTileEntity {
         IInventory outputContainer = this.containerAtPos(world, x + dx, y + dy, z + dz);
 
         if (outputContainer == null) {
-            List<Entity> index = world.getEntitiesWithinAABB(IInventory.class, AABB.getBoundingBoxFromPool(
+            List<Entity> index = world.getEntitiesWithinAABB(EntityMinecart.class, AABB.getBoundingBoxFromPool(
                     x + dx, y + dy, z + dz, x + dx + 1, y + dy + 1, z + dz + 1));
 
-            if (!index.isEmpty() && (!(index.get(0) instanceof EntityMinecart) ||
+            if (!index.isEmpty() && (!(index.get(0) instanceof IInventory) ||
                     ((EntityMinecart) index.get(0)).minecartType == 1)) {
                 outputContainer = (IInventory) index.get(0);
             }
@@ -275,10 +252,10 @@ public class BlockAllocator extends BlockTileEntity {
         List<Entity> entities;
 
         if (inputContainer == null) {
-            entities = world.getEntitiesWithinAABB(IInventory.class, AABB.getBoundingBoxFromPool(
+            entities = world.getEntitiesWithinAABB(EntityMinecart.class, AABB.getBoundingBoxFromPool(
                     x - dx, y - dy, z - dz, x - dx + 1, y - dy + 1, z - dz + 1));
 
-            if (!entities.isEmpty() && (!(entities.get(0) instanceof EntityMinecart) ||
+            if (!entities.isEmpty() && (!(entities.get(0) instanceof IInventory) ||
                     ((EntityMinecart) entities.get(0)).minecartType == 1)) {
                 inputContainer = (IInventory) entities.get(0);
             }

@@ -16,9 +16,13 @@ public class SimpleTechRecipes implements RecipeEntrypoint {
             new RecipeSymbol(new ItemStack(Block.workbench)));
 
     @Override
+    public void initNamespaces() {
+    }
+
+    @Override
     public void onRecipesReady() {
         SIMPLE_TECH.register("workbench", WORKBENCH);
         Registries.RECIPES.register("simpletech", SIMPLE_TECH);
-        DataLoader.loadRecipes("/assets/simpletech/recipes/workbench.json");
+        DataLoader.loadRecipesFromFile("/assets/simpletech/recipes/workbench.json");
     }
 }

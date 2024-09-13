@@ -1,9 +1,10 @@
 package ambos.simpletech.block;
 
+import net.minecraft.core.util.helper.Side;
 import net.minecraft.core.block.BlockChest;
 import net.minecraft.core.block.material.Material;
 import net.minecraft.core.entity.player.EntityPlayer;
-import net.minecraft.core.sound.SoundType;
+import net.minecraft.core.sound.SoundCategory;
 import net.minecraft.core.world.World;
 import net.minecraft.core.world.WorldSource;
 
@@ -16,7 +17,7 @@ public class BlockTrappedChest extends BlockChest {
 
     public BlockTrappedChest(String key, int id, Material material) {
         super(key, id, material);
-        this.withTexCoords(9, 1, 9, 1, 11, 1, 10, 1, 10, 1, 10, 1);
+        //this.withTexCoords(9, 1, 9, 1, 11, 1, 10, 1, 10, 1, 10, 1);
         this.setTicking(true);
     }
 
@@ -55,14 +56,14 @@ public class BlockTrappedChest extends BlockChest {
     }
 
     @Override
-    public boolean blockActivated(World world, int x, int y, int z, EntityPlayer player) {
+    public boolean onBlockRightClicked(World world, int x, int y, int z, EntityPlayer player, Side side, double xPlaced, double yPlaced) {
         this.setState(world, x, y, z, (byte) 1);
 
         world.scheduleBlockUpdate(x, y, z, this.id, this.tickRate());
-        world.playSoundEffect(SoundType.GUI_SOUNDS, x + 0.5, y + 0.5, z + 0.5,
+        world.playSoundEffect(null, SoundCategory.GUI_SOUNDS, x + 0.5, y + 0.5, z + 0.5,
                 "random.click", 0.3f, 0.6f);
 
-        return super.blockActivated(world, x, y, z, player);
+        return super.onBlockRightClicked(world, x, y, z, player, side, xPlaced, yPlaced);
     }
 
     @Override

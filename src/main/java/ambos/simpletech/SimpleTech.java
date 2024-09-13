@@ -1,6 +1,9 @@
 package ambos.simpletech;
 
-import net.minecraft.client.sound.block.BlockSounds;
+import ambos.simpletech.block.*;
+import ambos.simpletech.block.entity.*;
+
+import net.minecraft.core.sound.BlockSounds;
 import net.minecraft.core.block.Block;
 import net.minecraft.core.block.material.Material;
 import net.minecraft.core.block.tag.BlockTags;
@@ -8,24 +11,16 @@ import net.minecraft.core.item.Item;
 import net.minecraft.core.item.ItemPlaceable;
 import net.minecraft.core.util.helper.Direction;
 import net.minecraft.core.world.World;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
-import ambos.simpletech.block.BlockAllocator;
-import ambos.simpletech.block.BlockFan;
-import ambos.simpletech.block.BlockJumpPad;
-import ambos.simpletech.block.BlockLightSensor;
-import ambos.simpletech.block.BlockRedstoneNotGate;
-import ambos.simpletech.block.BlockTrappedChest;
-import ambos.simpletech.block.entity.TileEntityAllocator;
-import ambos.simpletech.block.entity.TileEntityFan;
-import ambos.simpletech.block.entity.TileEntityLightSensor;
 import turniplabs.halplibe.helper.BlockBuilder;
 import turniplabs.halplibe.helper.EntityHelper;
-import turniplabs.halplibe.helper.ItemHelper;
+import turniplabs.halplibe.helper.ItemBuilder;
 import turniplabs.halplibe.util.GameStartEntrypoint;
 import turniplabs.halplibe.util.TomlConfigHandler;
 import turniplabs.halplibe.util.toml.Toml;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class SimpleTech implements GameStartEntrypoint {
     public static final String MOD_ID = "simpletech";
@@ -82,10 +77,12 @@ public class SimpleTech implements GameStartEntrypoint {
             .setBlockSound(BlockSounds.STONE)
             .setTags(BlockTags.MINEABLE_BY_PICKAXE);
     public static final BlockBuilder fanBuilder = stoneBlockBuilder
-            .setTopBottomTexture("misc_top_bottom.png")
-            .setEastTexture("misc_side.png")
-            .setWestTexture("misc_side.png")
-            .setNorthTexture("misc_side.png");
+            .setTopTexture("simpletech:block/misc_top_bottom")
+            .setBottomTexture("simpletech:block/misc_top_bottom")
+            .setEastTexture("simpletech:block/misc_side")
+            .setWestTexture("simpletech:block/misc_side")
+            .setNorthTexture("simpletech:block/misc_side")
+            .setBlockModel(b -> new BlockModelFan(b));
     public static final BlockBuilder woodenBlockBuilder = new BlockBuilder(MOD_ID)
             .setHardness(1.0f)
             .setResistance(2.5f)
@@ -102,14 +99,14 @@ public class SimpleTech implements GameStartEntrypoint {
 
     // Blocks
     public static final Block unpoweredFan = fanBuilder
-            .setSouthTexture("fan_front.png")
+            .setSouthTexture("simpletech:block/fan_front")
             .build(new BlockFan("fan.unpowered", UNPOWERED_FAN_ID, Material.stone, false));
     public static final Block poweredFan = fanBuilder
-            .setSouthTexture("fan_front_powered.png")
+            .setSouthTexture("simpletech:block/fan_front_powered")
             .setTags(BlockTags.NOT_IN_CREATIVE_MENU)
             .build(new BlockFan("fan.powered", POWERED_FAN_ID, Material.stone, true));
     public static final Block jumpPad = woodenBlockBuilder
-            .setTextures("jump_pad.png")
+            .setTextures("simpletech:block/jump_pad")
             .build(new BlockJumpPad("jumppad", JUMP_PAD_ID, Material.wood));
     public static final Block trappedChest = woodenBlockBuilder
             .setHardness(2.5f)
@@ -118,43 +115,37 @@ public class SimpleTech implements GameStartEntrypoint {
             .setTickOnLoad()
             .build(new BlockTrappedChest("chest.trapped", TRAPPED_CHEST_ID, Material.wood));
     public static final Block lightSensor = woodenBlockBuilder
-            .setTextures("light_sensor.png")
+            .setTextures("simpletech:block/light_sensor")
             .build(new BlockLightSensor("lightsensor", LIGHT_SENSOR_ID, Material.wood));
     public static final Block allocator = stoneBlockBuilder
-            .setTopTexture("allocator_back_top_bottom.png")
-            .setBottomTexture("allocator_front_top_bottom.png")
-            .setEastTexture("misc_side.png")
-            .setWestTexture("misc_top_bottom.png")
-            .setNorthTexture("allocator_back.png")
-            .setSouthTexture("allocator_front.png")
+            .setTopTexture("simpletech:block/allocator_back_top_bottom")
+            .setBottomTexture("simpletech:block/allocator_front_top_bottom")
+            .setEastTexture("simpletech:block/misc_side")
+            .setWestTexture("simpletech:block/misc_top_bottom")
+            .setNorthTexture("simpletech:block/allocator_back")
+            .setSouthTexture("simpletech:block/allocator_front")
+            .setBlockModel(b -> new BlockModelAllocator(b))
             .build(new BlockAllocator("allocator", ALLOCATOR_ID, Material.stone, true, true));
     public static final Block notGateIdle = gateBlockBuilder
-            .setTopTexture("gate_top.png")
-            .setNorthTexture("gate_top.png")
-            .setEastTexture("gate_top.png")
-            .setWestTexture("gate_top.png")
-            .setSouthTexture("gate_top.png")
-            .setBottomTexture("gate_top.png")
+            .setTextures("simpletech:block/gate_top")
+            .setBlockModel(b -> new BlockModelRedstoneNotGate(b, false))
             .build(new BlockRedstoneNotGate("not.gate.idle", NOT_GATE_IDLE_ID, Material.decoration, false));
     public static final Block notGateActive = gateBlockBuilder
-            .setTopTexture("gate_top_powered.png")
-            .setNorthTexture("gate_top_powered.png")
-            .setEastTexture("gate_top_powered.png")
-            .setWestTexture("gate_top_powered.png")
-            .setSouthTexture("gate_top_powered.png")
-            .setBottomTexture("gate_top_powered.png")
+            .setTextures("simpletech:block/gate_top_powered")
+            .setBlockModel(b -> new BlockModelRedstoneNotGate(b, true))
             .build(new BlockRedstoneNotGate("not.gate.active", NOT_GATE_ACTIVE_ID, Material.decoration, true));
 
     // Items
-    public static final Item notGate = ItemHelper.createItem(MOD_ID,
-            new ItemPlaceable("not.gate", NOT_GATE_ID, notGateIdle), "not.gate", "not_logicate.png");
+    public static final Item notGate = new ItemBuilder(MOD_ID)
+        .setIcon("simpletech:item/not_logicate")
+        .build(new ItemPlaceable("not.gate", NOT_GATE_ID, notGateIdle));
 
     @Override
     public void beforeGameStart() {
         // Entities.
-        EntityHelper.Core.createTileEntity(TileEntityFan.class, "Fan");
-        EntityHelper.Core.createTileEntity(TileEntityLightSensor.class, "Light Sensor");
-        EntityHelper.Core.createTileEntity(TileEntityAllocator.class, "Allocator");
+        EntityHelper.createTileEntity(TileEntityFan.class, "Fan");
+        EntityHelper.createTileEntity(TileEntityLightSensor.class, "Light Sensor");
+        EntityHelper.createTileEntity(TileEntityAllocator.class, "Allocator");
         LOGGER.info("Simple Tech initialized");
     }
 

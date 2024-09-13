@@ -38,22 +38,6 @@ public class BlockFan extends BlockTileEntity {
     }
 
     @Override
-    public int getBlockTextureFromSideAndMetadata(Side side, int j) {
-        int direction = SimpleTech.get3DDirectionFromMeta(j);
-        if (direction > Direction.EAST.getId()) {
-            return this.atlasIndices[Side.TOP.getId()]; // Defaults to top/bottom texture.
-        } else if (side.getId() == direction) {
-            return this.atlasIndices[Side.SOUTH.getId()]; // Returns front texture.
-        } else {
-            if (side.getId() == Side.TOP.getId() || side.getId() == Side.BOTTOM.getId()) {
-                return this.atlasIndices[Side.TOP.getId()]; // Returns top/bottom texture.
-            } else {
-                return this.atlasIndices[Side.EAST.getId()]; // Returns one of the sides texture.
-            }
-        }
-    }
-
-    @Override
     public void randomDisplayTick(World world, int x, int y, int z, Random rand) {
         // Particle rendering.
         if (this.isPowered) {
@@ -66,12 +50,14 @@ public class BlockFan extends BlockTileEntity {
                 double ry = rand.nextDouble() - 0.5;
                 double rz = rand.nextDouble() - 0.5;
                 world.spawnParticle("smoke",
-                        (double) (x + dx) + 0.5 + rx,
-                        (double) (y + dy) + 0.5 + ry,
-                        (double) (z + dz) + 0.5 + rz,
-                        0.2 * (double) dx,
-                        0.2 * (double) dy,
-                        0.2 * (double) dz);
+                    (double) (x + dx) + 0.5 + rx,
+                    (double) (y + dy) + 0.5 + ry,
+                    (double) (z + dz) + 0.5 + rz,
+                    0.2 * (double) dx,
+                    0.2 * (double) dy,
+                    0.2 * (double) dz,
+                    0
+                );
             }
         }
     }
@@ -101,6 +87,8 @@ public class BlockFan extends BlockTileEntity {
     public void onBlockPlaced(World world, int x, int y, int z, Side side, EntityLiving entity, double sideHeight) {
         Direction placementDirection = entity.getPlacementDirection(side).getOpposite();
         world.setBlockMetadataWithNotify(x, y, z, placementDirection.getId());
+        // Check for signal
+        onNeighborBlockChange(world, x, y, z, 0);
     }
 
     @Override

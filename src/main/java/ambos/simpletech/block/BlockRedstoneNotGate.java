@@ -24,7 +24,7 @@ public class BlockRedstoneNotGate extends Block {
     }
 
     @Override
-    public void setBlockBoundsBasedOnState(World world, int x, int y, int z) {
+    public void setBlockBoundsBasedOnState(WorldSource world, int x, int y, int z) {
         // Sets block shape when placed.
         this.setBlockBounds(0.0f, 0.0f, 0.0f, 1.0f, 0.125f, 1.0f);
     }
@@ -69,17 +69,6 @@ public class BlockRedstoneNotGate extends Block {
             world.setBlockAndMetadataWithNotify(x, y, z, SimpleTech.notGateIdle.id, metadata);
         } else if (!this.isPowered) {
             world.setBlockAndMetadataWithNotify(x, y, z, SimpleTech.notGateActive.id, metadata);
-        }
-    }
-
-    @Override
-    public int getBlockTextureFromSideAndMetadata(Side side, int j) {
-        if (side == Side.BOTTOM) {
-            return !this.isPowered ? texCoordToIndex(3, 7) : texCoordToIndex(3, 6);
-        } else if (side == Side.TOP) {
-            return !this.isPowered ? texCoordToIndex(3, 8) : texCoordToIndex(3, 9);
-        } else {
-            return texCoordToIndex(5, 0);
         }
     }
 
