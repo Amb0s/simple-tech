@@ -11,6 +11,7 @@ import net.minecraft.core.item.Item;
 import net.minecraft.core.item.ItemPlaceable;
 import net.minecraft.core.util.helper.Direction;
 import net.minecraft.core.world.World;
+import net.minecraft.client.render.block.model.BlockModelChest;
 
 import turniplabs.halplibe.helper.BlockBuilder;
 import turniplabs.halplibe.helper.EntityHelper;
@@ -112,7 +113,10 @@ public class SimpleTech implements GameStartEntrypoint {
             .setHardness(2.5f)
             .setResistance(5.0f)
             .setTags(BlockTags.MINEABLE_BY_AXE, BlockTags.FENCES_CONNECT)
-            .setTickOnLoad()
+            .setTextures("minecraft:block/chest_planks_oak_top")
+            .setBlockModel(
+                b -> new BlockModelChest(b, "minecraft:block/chest_planks_oak")
+            ).setTickOnLoad()
             .build(new BlockTrappedChest("chest.trapped", TRAPPED_CHEST_ID, Material.wood));
     public static final Block lightSensor = woodenBlockBuilder
             .setTextures("simpletech:block/light_sensor")

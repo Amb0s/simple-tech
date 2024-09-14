@@ -30,6 +30,7 @@ import ambos.simpletech.block.entity.TileEntityAllocator;
 public class BlockAllocator extends BlockTileEntity {
     private final boolean allowFiltering;
     private final boolean subItemFiltering;
+    private Random random = new Random();
 
     public BlockAllocator(String key, int id, Material material, boolean allowFiltering, boolean subItemFiltering) {
         super(key, id, material);
@@ -78,14 +79,19 @@ public class BlockAllocator extends BlockTileEntity {
     }
 
     @Override
-    public void onBlockAdded(World world, int x, int y, int z) {
-        super.onBlockAdded(world, x, y, z);
-    }
-
-    @Override
     public void onBlockPlaced(World world, int x, int y, int z, Side side, EntityLiving entity, double sideHeight) {
         Direction placementDirection = entity.getPlacementDirection(side).getOpposite();
         world.setBlockMetadataWithNotify(x, y, z, placementDirection.getId());
+    }
+
+    @Override
+    public void onBlockRemoved(World world, int x, int y, int z, int data) {
+        if (world.getBlockTileEntity(x, y, z) != null) {
+            TileEntityAllocator te = (TileEntityAllocator) world.getBlockTileEntity(x, y, z);
+            if (te.getStackInSlot(0) != null) {
+                dispenseItem(world, x, y, z, 0, 0, 0, te.getStackInSlot(0), random);
+            }
+        }
     }
 
     public int getRandomItemFromContainer(IInventory inventory, Random rand, World world, int x, int y, int z) {
@@ -281,12 +287,13 @@ public class BlockAllocator extends BlockTileEntity {
 
             if (itemIndex >= 0) {
                 int itemDamage = inputContainer.getStackInSlot(itemIndex).getItemDamageForDisplay();
+                int itemSize = inputContainer.getStackInSlot(itemIndex).stackSize;
 
                 ItemStack item = new ItemStack(inputContainer.getStackInSlot(itemIndex)
-                        .getItem(), 1, itemDamage);
+                        .getItem(), itemSize, itemDamage);
 
                 if (this.outputItem(world, x, y, z, dx, dy, dz, item, rand)) {
-                    inputContainer.decrStackSize(itemIndex, 1);
+                    inputContainer.decrStackSize(itemIndex, itemSize);
                 }
             }
         }
