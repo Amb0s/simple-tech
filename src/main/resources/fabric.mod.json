@@ -21,6 +21,9 @@
     ],
     "recipesReady": [
       "ambos.simpletech.SimpleTechRecipes"
+    ],
+    "btwaila": [
+      "ambos.simpletech.btwaila.BTWailaPlugin"
     ]
   },
   "mixins": [

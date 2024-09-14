@@ -4,14 +4,12 @@
   "package": "ambos.simpletech.mixin",
   "compatibilityLevel": "JAVA_8",
   "mixins": [
-    "EntityItemMixin",
     "EntityPlayerMixin",
     "EntityPlayerMPMixin"
   ],
   "client": [
     "EntityPlayerSPMixin",
-    "NetClientHandlerMixin",
-    "RenderBlocksMixin"
+    "NetClientHandlerMixin"
   ],
   "injectors": {
     "defaultRequire": 1

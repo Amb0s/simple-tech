@@ -47,9 +47,10 @@ public class TileEntityAllocator extends TileEntity implements IInventory {
     public void setInventorySlotContents(int i, ItemStack itemStack) {
         if (i == 0) {
             this.allocatorFilterItem = itemStack;
+            /* This breaks using allocators as pipes, and BTA already handles the normal size checking
             if (itemStack != null && itemStack.stackSize > this.getInventoryStackLimit()) {
                 itemStack.stackSize = this.getInventoryStackLimit();
-            }
+            }*/
         }
     }
 

@@ -1,10 +1,12 @@
 package ambos.simpletech.block;
 
+import net.minecraft.core.util.helper.Side;
 import net.minecraft.core.block.Block;
 import net.minecraft.core.block.material.Material;
 import net.minecraft.core.entity.Entity;
 import net.minecraft.core.entity.EntityItem;
 import net.minecraft.core.entity.EntityLiving;
+import net.minecraft.core.world.WorldSource;
 import net.minecraft.core.world.World;
 
 public class BlockJumpPad extends Block {
@@ -43,7 +45,7 @@ public class BlockJumpPad extends Block {
     }
 
     @Override
-    public void setBlockBoundsBasedOnState(World world, int x, int y, int z) {
+    public void setBlockBoundsBasedOnState(WorldSource world, int x, int y, int z) {
         // Sets block shape when placed.
         this.setBlockBounds(0.0f, 0.0f, 0.0f, 1.0f, 0.25f, 1.0f);
     }
